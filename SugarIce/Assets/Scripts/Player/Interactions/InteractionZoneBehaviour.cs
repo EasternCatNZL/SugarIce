@@ -49,6 +49,30 @@ public class InteractionZoneBehaviour : MonoBehaviour {
         return closestObject;
     }
 
+    //return the table closest to player, only call if collided tables is not empty
+    //for safety, when function called, always check back for null object return
+    public GameObject GetClosestTable()
+    {
+        //gameobject ref to return
+        GameObject closetsTable = null;
+        //initialize a base distance to compare against
+        float shortestDistance = 5.0f;
+
+        //compare distance between all interactable objects in list to current shortest distance
+        foreach (Collider col in tableObjects)
+        {
+            //if distance is shorter, set closest object to this object
+            //set shortest distance to this distance
+            if (Vector3.Distance(col.gameObject.transform.position, frontOfPlayer) < shortestDistance)
+            {
+                closetsTable = col.gameObject;
+                shortestDistance = Vector3.Distance(col.gameObject.transform.position, frontOfPlayer);
+            }
+        }
+
+        return closetsTable;
+    }
+
     //get the transform of position between player and interaction zone and label as front of player
     void GetFrontOfPlayer()
     {

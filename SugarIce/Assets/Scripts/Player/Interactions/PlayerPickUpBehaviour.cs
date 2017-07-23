@@ -75,6 +75,8 @@ public class PlayerPickUpBehaviour : MonoBehaviour {
             //else try to pick up an object
             else
             {
+                //if table exists, check to see if item to pickup from table exists first
+                
                 //check for an object to pick up, if null, do nothing
                 if (interactionZone.GetClosestInteractable())
                 {
