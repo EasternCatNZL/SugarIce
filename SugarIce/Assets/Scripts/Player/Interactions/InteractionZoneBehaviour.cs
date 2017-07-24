@@ -12,6 +12,11 @@ public class InteractionZoneBehaviour : MonoBehaviour {
     [Header("Parent object")]
     public Transform playerObject;
 
+    //tags
+    [Header("Tags")]
+    public string interactableTag;
+    public string tableTag; 
+
     //transforms
     Vector3 frontOfPlayer;
 
@@ -32,7 +37,9 @@ public class InteractionZoneBehaviour : MonoBehaviour {
         //gameobject ref to return
         GameObject closestObject = null;
         //initialize a base distance to compare against
-        float shortestDistance = 5.0f;
+        float shortestDistance = 50.0f;
+
+        GetFrontOfPlayer();
 
         //compare distance between all interactable objects in list to current shortest distance
         foreach (Collider col in collidedObjects)
@@ -56,7 +63,9 @@ public class InteractionZoneBehaviour : MonoBehaviour {
         //gameobject ref to return
         GameObject closetsTable = null;
         //initialize a base distance to compare against
-        float shortestDistance = 5.0f;
+        float shortestDistance = 50.0f;
+
+        GetFrontOfPlayer();
 
         //compare distance between all interactable objects in list to current shortest distance
         foreach (Collider col in tableObjects)
@@ -85,9 +94,18 @@ public class InteractionZoneBehaviour : MonoBehaviour {
         if (!collidedObjects.Contains(other))
         {
             //if object is an interactable
-
-            //add to list
-            collidedObjects.Add(other);
+            if (other.CompareTag(interactableTag))
+            {
+                //add to list
+                collidedObjects.Add(other);
+                //DEBUG
+                //print("Found " + other.gameObject.ToString());
+            }
+            if (other.CompareTag(tableTag))
+            {
+                //add to table list
+                tableObjects.Add(other);
+            }
         }
     }
 
@@ -98,6 +116,12 @@ public class InteractionZoneBehaviour : MonoBehaviour {
         {
             //remove from list
             collidedObjects.Remove(other);
+        }
+        //if object is in table list
+        if (tableObjects.Contains(other))
+        {
+            //remove from the list
+            tableObjects.Remove(other);
         }
     }
 }

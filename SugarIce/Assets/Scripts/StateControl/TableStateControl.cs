@@ -16,7 +16,7 @@ public class TableStateControl : MonoBehaviour {
     [HideInInspector]
     public bool hasItem = false; //checks whether any item is on table
 
-    private GameObject itemOnTable; //the chemical object that is currently on the table
+    
     
 
 	// Use this for initialization
@@ -29,8 +29,5 @@ public class TableStateControl : MonoBehaviour {
 		
 	}
 
-    public GameObject getItemOnTable()
-    {
-        return itemOnTable;
-    }
+    
 }
