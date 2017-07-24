@@ -74,12 +74,16 @@ public class PlayerPickUpBehaviour : MonoBehaviour {
                 //if table exists, interact with table
                 if (interactionZone.GetClosestTable())
                 {
-                    //give item to the table
-                    interactionZone.GetClosestTable().GetComponent<TableBehaviour>().SetItemOnTable(heldObject);
-                    interactionZone.GetClosestTable().GetComponent<TableStateControl>().hasItem = true;
-                    //player no longer holding anything, set to null
-                    heldObject = null;
-                    playerState.isHolding = false;
+                    //Check the player can place the item on the table
+                    if (interactionZone.GetClosestTable().GetComponent<TableBehaviour>().ValidTable(heldObject))
+                    {
+                        //give item to the table
+                        interactionZone.GetClosestTable().GetComponent<TableBehaviour>().SetItemOnTable(heldObject);
+                        interactionZone.GetClosestTable().GetComponent<TableStateControl>().hasItem = true;
+                        //player no longer holding anything, set to null
+                        heldObject = null;
+                        playerState.isHolding = false;
+                    }
                 }
                 //else, drop the item
                 else

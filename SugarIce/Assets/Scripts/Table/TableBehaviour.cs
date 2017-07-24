@@ -25,6 +25,17 @@ public class TableBehaviour : MonoBehaviour {
         return itemOnTable;
     }
 
+    //Check the item can be placed on the table
+    public bool ValidTable(GameObject _Item)
+    {
+        //Check there is no table and that the item is valid with the tool
+        if(!itemOnTable && GetComponent<Tools>().ValidItem(_Item))
+        {
+            return true;
+        }
+        return false;
+    }
+
     //gives item to table
     public void SetItemOnTable(GameObject item)
     {
