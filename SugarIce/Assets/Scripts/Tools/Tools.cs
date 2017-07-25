@@ -23,22 +23,63 @@ public class Tools : MonoBehaviour {
         ORANGE
     };
 
-    public ToolTypes Tool;
+    public ToolTypes Tool = ToolTypes.NONE;
+    public GameObject ProgressBar = null;
 
-    private GameObject ItemRef;
+    public float DoneTime = 5.0f;
+    public float BurntTime = 7.0f;
+    public float CookingStartTime = 0.0f;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    private GameObject ItemRef = null;
+    private bool ToolActive = false;
+
+
+    // Use this for initialization
+    void Start() {
+
+    }
+
+    // Update is called once per frame
+    void Update() {
+        if (ToolActive)
+        {
+            switch (Tool)
+            {
+                case ToolTypes.OVEN:
+                    OvenUpdate();
+                    break;
+                case ToolTypes.BURNER:
+                    BurnerUpdate();
+                    break;
+            }
+        }
+    }
+
+    void OvenUpdate()
+    {
+        if (Time.time - CookingStartTime < DoneTime)
+        {
+            ProgressBar.transform.localScale.Set(ProgressBar.transform.localScale.x, (Time.time - CookingStartTime) / DoneTime, ProgressBar.transform.localScale.z);
+        }
+    }
+
+    void BurnerUpdate()
+    {
+
+    }
+
+    public GameObject GetItemInTool()
+    {
+        if(Time.time - CookingStartTime > BurntTime)
+        {
+            
+        }
+        return ItemRef;
+    }
 
     public bool ValidItem(GameObject _Item)
     {
+        bool result = false;
         switch(Tool)
         {
             //Return true as there is no tool
@@ -49,36 +90,47 @@ public class Tools : MonoBehaviour {
                 if(_Item.GetComponent<ItemStateControl>().GetItemType() == ItemStateControl.ItemTypes.DONUTDOUGH)
                 {
                     ItemRef = _Item;
-                    return true;
+                    result = true;
+                    break;
                 }
-                break;
+                //Start Tool Progress
+                ToolActive = true;
+                CookingStartTime = Time.time;
+                return result;
             //Check item is valid for a Bunsen Burner
             case ToolTypes.BURNER:
                 switch(_Item.GetComponent<ItemStateControl>().GetItemType())
                 {
                     case ItemStateControl.ItemTypes.POWDER1:
                         ItemRef = _Item;
-                        return true;
+                        result = true;
+                        break;
                     case ItemStateControl.ItemTypes.POWDER2:
                         ItemRef = _Item;
-                        return true;
+                        result = true;
+                        break;
                     default: break;
                 }
-                break;
+                //Start Tool Progress
+                ToolActive = true;
+                CookingStartTime = Time.time;
+                return result;
             //Check item is valid for a Test Tube
             case ToolTypes.TUBES:
                 switch (_Item.GetComponent<ItemStateControl>().GetItemType())
                 {
                     case ItemStateControl.ItemTypes.POWDER1:
                         ItemRef = _Item;
-                        return true;
+                        result = true;
+                        break;
                     case ItemStateControl.ItemTypes.POWDER2:
                         ItemRef = _Item;
-                        return true;
+                        result = true;
+                        break;
                     default: break;
                 }
-                break;
+                return result;
         }
-        return false;
+        return result;
     }
 }

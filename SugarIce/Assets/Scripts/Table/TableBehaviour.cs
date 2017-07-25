@@ -22,13 +22,17 @@ public class TableBehaviour : MonoBehaviour {
     //return the item that table is currently holding
     public GameObject GetItemOnTable()
     {
+        if(GetComponent<Tools>().Tool != Tools.ToolTypes.NONE)
+        {
+            return GetComponent<Tools>().GetItemInTool();
+        }
         return itemOnTable;
     }
 
     //Check the item can be placed on the table
     public bool ValidTable(GameObject _Item)
     {
-        //Check there is no table and that the item is valid with the tool
+        //Check there is no item on the table and that the item is valid with the tool
         if(!itemOnTable && GetComponent<Tools>().ValidItem(_Item))
         {
             return true;
