@@ -8,6 +8,7 @@ public class ItemStateControl : MonoBehaviour {
     {
         DONUTDOUGH,
         DONUTCOOKED,
+        DONUTBURNT,
         POWDER1,
         POWDER2,
         DRUG1,
