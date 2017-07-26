@@ -7,15 +7,19 @@ public class OrderBehaviour : MonoBehaviour {
     //mixture array
     private ChemicalBehaviour[] mixture = new ChemicalBehaviour[0];
 
-    private ChemicalBehaviour[][] orders = new ChemicalBehaviour[0][0];
+    [Header("Orders for level")]
+    List<OrderItem> currentOrders = new List<OrderItem>();
+    public OrderItem[] possibleOrders = new OrderItem[0];
+    //public OrderItem[] currentOrders = new OrderItem[0];
 
-    ////bools determining what is avalible
-    //bool burnerAvalible = false;
-    //bool tubeAvalible = false;
-    //bool blueAvalible = false;
-    //bool orangeAvalible = false;
+    [Header("Order functionality control")]
+    public float orderIntervalMinimum = 20.0f; //minimum time that has to pass before next order arrives
+    public float orderIntervalMaximum = 25.0f; //maximum time in which next order must arrive when met
+
+    private float timeLastOrder = 0.0f; //time of last order
 
     // Use this for initialization
+
     void Start () {
 		
 	}
@@ -25,17 +29,20 @@ public class OrderBehaviour : MonoBehaviour {
 		
 	}
 
-    ////call at start of level, what is avalible to be used in orders
-    //private void FindAvalibleTools()
-    //{
-    //    //call from a level manager that is set for each level?
-    //}
+    //creates a new order and adds it to the orders queue
+    private void CreateOrder()
+    {
+        //get random order from array of possible orders
+        int rand = Random.Range(0, possibleOrders.Length);
+        //copy the order from possible orders into current orders
+        currentOrders.Add(possibleOrders[rand]);
+    }
 
-    ////call at start of level, what is avalible to be used in orders
-    //private void FindAvalibleChemicals()
-    //{
-    //    //call from a level manager that is set for each level?
-    //}
+    //remove an object from the queue
+    private void RemoveOrder(OrderItem itemToRemove)
+    {
+        if (currentOrders.Find(itemToRemove)){
 
-
+        }
+    }
 }
