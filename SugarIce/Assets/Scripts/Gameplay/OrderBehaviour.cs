@@ -7,14 +7,14 @@ public class OrderBehaviour : MonoBehaviour {
     //mixture array
     //private ChemicalBehaviour[] mixture = new ChemicalBehaviour[0];
 
-<<<<<<< HEAD
+//<<<<<<< HEAD
     //private ChemicalBehaviour[][] orders = new ChemicalBehaviour[0][0];
-=======
+//=======
     [Header("Orders for level")]
     List<OrderItem> currentOrders = new List<OrderItem>();
     public OrderItem[] possibleOrders = new OrderItem[0];
     //public OrderItem[] currentOrders = new OrderItem[0];
->>>>>>> 850d803b1fa4d1492b5bc98e6896d992f45a74ee
+//>>>>>>> 850d803b1fa4d1492b5bc98e6896d992f45a74ee
 
     [Header("Order functionality control")]
     public float orderIntervalMinimum = 20.0f; //minimum time that has to pass before next order arrives
@@ -45,8 +45,8 @@ public class OrderBehaviour : MonoBehaviour {
     //remove an object from the queue
     private void RemoveOrder(OrderItem itemToRemove)
     {
-        if (currentOrders.Find(itemToRemove)){
+       // if (currentOrders.Find(itemToRemove)){
 
-        }
+       // }
     }
 }
