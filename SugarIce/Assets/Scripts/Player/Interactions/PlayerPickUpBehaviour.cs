@@ -106,8 +106,8 @@ public class PlayerPickUpBehaviour : MonoBehaviour {
                         heldObject = interactionZone.GetClosestTable().GetComponent<TableBehaviour>().GetItemOnTable();
                         playerState.isHolding = true;
                         //set table object to null
-                        interactionZone.GetClosestTable().GetComponent<TableBehaviour>().RemoveItemOnTable();
-                        interactionZone.GetClosestTable().GetComponent<TableStateControl>().hasItem = false;
+                        //interactionZone.GetClosestTable().GetComponent<TableBehaviour>().RemoveItemOnTable(); //###MOVED TO GetItemOnTable FUNCTION IN TABLE BEHAVIOUR###
+                        //interactionZone.GetClosestTable().GetComponent<TableStateControl>().hasItem = false;
                     }
                     //if table does not have item, try to pick up off floor
                     else if (interactionZone.GetClosestInteractable())

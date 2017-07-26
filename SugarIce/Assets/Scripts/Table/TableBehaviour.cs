@@ -22,6 +22,12 @@ public class TableBehaviour : MonoBehaviour {
     //return the item that table is currently holding
     public GameObject GetItemOnTable()
     {
+
+        if (GetComponent<Tools>().Tool != Tools.ToolTypes.DRUGS && GetComponent<Tools>().Tool != Tools.ToolTypes.DONUTS)
+        {
+            RemoveItemOnTable();
+            GetComponent<TableStateControl>().hasItem = false;
+        }
         if(GetComponent<Tools>().Tool != Tools.ToolTypes.NONE)
         {
             return GetComponent<Tools>().GetItemInTool();

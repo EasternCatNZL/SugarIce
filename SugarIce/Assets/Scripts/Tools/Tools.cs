@@ -12,7 +12,7 @@ public class Tools : MonoBehaviour
         BURNER,
         TUBES,
         FRIDGE,
-        DONUTs,
+        DONUTS,
         DRUGS,
         BAGS
 
@@ -21,19 +21,25 @@ public class Tools : MonoBehaviour
     public enum DrugTypes
     {
         BLUE,
-        ORANGE
+        RED
     };
-
-
 
     public ToolTypes Tool = ToolTypes.NONE;
     public GameObject ProgressBar = null;
-
+    [Header("Supply Tool Settings")]
+    public DrugTypes DrugType = DrugTypes.BLUE;
+    [Header("Cooking Tool Settings")]
     public float DoneTime = 5.0f;
     public float BurntTime = 7.0f;
     private float CookingStartTime = 0.0f;
-
+    [Header("Mixing Tool Settings")]
+    public ItemStateControl.ItemTypes[] Recipe1;
+    public ItemStateControl.ItemTypes[] Recipe2;
+    [Header("Produce Prefabs")]
     public GameObject[] Items;
+
+    private int MixtureStage = 0;
+    private ItemStateControl.ItemTypes[] Mixture;
 
     private GameObject ItemRef = null;
     private bool ToolActive = false;
@@ -48,7 +54,6 @@ public class Tools : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         if (ToolActive)
         {
             switch (Tool)
@@ -58,6 +63,9 @@ public class Tools : MonoBehaviour
                     break;
                 case ToolTypes.BURNER:
                     BurnerUpdate();
+                    break;
+                case ToolTypes.TUBES:
+                    TubeUpdate();
                     break;
             }
         }
@@ -73,6 +81,15 @@ public class Tools : MonoBehaviour
     }
 
     void BurnerUpdate()
+    {
+        if (Time.time - CookingStartTime < DoneTime)
+        {
+            ProgressBar.transform.localScale = new Vector3(ProgressBar.transform.localScale.x, 2 * ((Time.time - CookingStartTime) / DoneTime), ProgressBar.transform.localScale.z);
+            print(ProgressBar.transform.localScale.y);
+        }
+    }
+
+    void TubeUpdate()
     {
 
     }
@@ -100,6 +117,16 @@ public class Tools : MonoBehaviour
                     ItemRef = null;
                     ToolActive = false;
                     return Instantiate(Items[1], new Vector3(0.0f, -5.0f, 0.0f), Quaternion.identity);
+                }
+                break;
+            case ToolTypes.DRUGS:
+                if(DrugType == DrugTypes.BLUE)
+                {
+                    return Instantiate(Items[3], new Vector3(0.0f, -5.0f, 0.0f), Quaternion.identity);
+                }
+                else if(DrugType == DrugTypes.RED)
+                {
+                    return Instantiate(Items[4], new Vector3(0.0f, -5.0f, 0.0f), Quaternion.identity);
                 }
                 break;
         }
@@ -130,11 +157,11 @@ public class Tools : MonoBehaviour
             case ToolTypes.BURNER:
                 switch (_Item.GetComponent<ItemStateControl>().GetItemType())
                 {
-                    case ItemStateControl.ItemTypes.POWDER1:
+                    case ItemStateControl.ItemTypes.MIX1:
                         ItemRef = _Item;
                         result = true;
                         break;
-                    case ItemStateControl.ItemTypes.POWDER2:
+                    case ItemStateControl.ItemTypes.MIX2:
                         ItemRef = _Item;
                         result = true;
                         break;

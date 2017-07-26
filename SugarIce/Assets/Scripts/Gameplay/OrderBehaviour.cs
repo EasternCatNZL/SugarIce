@@ -5,9 +5,9 @@ using UnityEngine;
 public class OrderBehaviour : MonoBehaviour {
 
     //mixture array
-    private ChemicalBehaviour[] mixture = new ChemicalBehaviour[0];
+    //private ChemicalBehaviour[] mixture = new ChemicalBehaviour[0];
 
-    private ChemicalBehaviour[][] orders = new ChemicalBehaviour[0][0];
+    //private ChemicalBehaviour[][] orders = new ChemicalBehaviour[0][0];
 
     ////bools determining what is avalible
     //bool burnerAvalible = false;

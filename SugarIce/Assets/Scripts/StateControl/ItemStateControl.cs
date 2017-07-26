@@ -11,9 +11,10 @@ public class ItemStateControl : MonoBehaviour {
         DONUTBURNT,
         POWDER1,
         POWDER2,
+        MIX1,
+        MIX2,
         DRUG1,
-        DRUG2,
-        DRUG3
+        DRUG2
     };
 
     public ItemTypes Type = ItemTypes.DONUTDOUGH;
