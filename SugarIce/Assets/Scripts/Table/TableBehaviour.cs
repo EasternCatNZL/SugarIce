@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class TableBehaviour : MonoBehaviour {
 
-    [Header("Item On Table Transform")]
+    //[Header("Item On Table Transform")]
     public Transform itemOnTablePos; //position on table where objects would sit
 
-    private GameObject itemOnTable; //the chemical object that is currently on the table
+    public GameObject itemOnTable; //the chemical object that is currently on the table
 
     // Use this for initialization
     void Start () {
@@ -22,17 +22,26 @@ public class TableBehaviour : MonoBehaviour {
     //return the item that table is currently holding
     public GameObject GetItemOnTable()
     {
-
+        //Its just a table take what you want
+        if (GetComponent<Tools>().Tool == Tools.ToolTypes.NONE)
+        {
+            GameObject temp = itemOnTable;
+            RemoveItemOnTable();
+            GetComponent<TableStateControl>().hasItem = false;
+            return temp;
+        }
+        //Remove item from Table
         if (GetComponent<Tools>().Tool != Tools.ToolTypes.DRUGS && GetComponent<Tools>().Tool != Tools.ToolTypes.DONUTS)
         {
             RemoveItemOnTable();
             GetComponent<TableStateControl>().hasItem = false;
         }
+        //Get output item from the tool
         if(GetComponent<Tools>().Tool != Tools.ToolTypes.NONE)
         {
             return GetComponent<Tools>().GetItemInTool();
         }
-        return itemOnTable;
+        return null;
     }
 
     //Check the item can be placed on the table
@@ -41,6 +50,7 @@ public class TableBehaviour : MonoBehaviour {
         //Check there is no item on the table and that the item is valid with the tool
         if(!itemOnTable && GetComponent<Tools>().ValidItem(_Item))
         {
+            RemoveItemOnTable();
             return true;
         }
         return false;

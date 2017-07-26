@@ -42,13 +42,16 @@ public class Tools : MonoBehaviour
     private ItemStateControl.ItemTypes[] Mixture;
 
     private GameObject ItemRef = null;
-    private bool ToolActive = false;
+    public bool ToolActive = false;
 
 
     // Use this for initialization
     void Start()
     {
-
+        if(Tool == ToolTypes.DRUGS || Tool == ToolTypes.DONUTS)
+        {
+            GetComponent<TableStateControl>().hasItem = true;
+        }
     }
 
     // Update is called once per frame
@@ -96,6 +99,7 @@ public class Tools : MonoBehaviour
 
     public GameObject GetItemInTool()
     {
+        print("returning item");
         switch (Tool)
         {
             case ToolTypes.OVEN:
@@ -119,6 +123,7 @@ public class Tools : MonoBehaviour
                     return Instantiate(Items[1], new Vector3(0.0f, -5.0f, 0.0f), Quaternion.identity);
                 }
                 break;
+                //Supply Tools
             case ToolTypes.DRUGS:
                 if(DrugType == DrugTypes.BLUE)
                 {
@@ -129,6 +134,8 @@ public class Tools : MonoBehaviour
                     return Instantiate(Items[4], new Vector3(0.0f, -5.0f, 0.0f), Quaternion.identity);
                 }
                 break;
+            case ToolTypes.DONUTS:
+                return Instantiate(Items[0], new Vector3(0.0f, -5.0f, 0.0f), Quaternion.identity);
         }
         ToolActive = false;
         return ItemRef;
@@ -147,11 +154,13 @@ public class Tools : MonoBehaviour
                 if (_Item.GetComponent<ItemStateControl>().GetItemType() == ItemStateControl.ItemTypes.DONUTDOUGH)
                 {
                     ItemRef = _Item;
+                    //Start Tool Progress
+                    ToolActive = true;
+                    CookingStartTime = Time.time;
                     result = true;
                 }
-                //Start Tool Progress
-                ToolActive = true;
-                CookingStartTime = Time.time;
+
+
                 return result;
             //Check item is valid for a Bunsen Burner
             case ToolTypes.BURNER:

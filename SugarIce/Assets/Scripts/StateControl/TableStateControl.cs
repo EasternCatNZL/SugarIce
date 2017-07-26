@@ -13,7 +13,7 @@ public class TableStateControl : MonoBehaviour {
     }
 
     //item storage and state control of table
-    [HideInInspector]
+    //[HideInInspector]
     public bool hasItem = false; //checks whether any item is on table
 
     
