@@ -14,7 +14,8 @@ public class Tools : MonoBehaviour
         FRIDGE,
         DONUTS,
         DRUGS,
-        BAGS
+        BAGS,
+        DROPOFF
 
     };
 
@@ -37,6 +38,9 @@ public class Tools : MonoBehaviour
     public ItemStateControl.ItemTypes[] Recipe2;
     [Header("Produce Prefabs")]
     public GameObject[] Items;
+
+    public Material BagMaterial;
+    public Mesh BagMesh;
 
     private int MixtureStage = 0;
     private ItemStateControl.ItemTypes[] Mixture;
@@ -123,7 +127,28 @@ public class Tools : MonoBehaviour
                     return Instantiate(Items[1], new Vector3(0.0f, -5.0f, 0.0f), Quaternion.identity);
                 }
                 break;
-                //Supply Tools
+            case ToolTypes.BURNER:
+                if (Time.time - CookingStartTime < DoneTime)
+                {
+                    ToolActive = false;
+                    return ItemRef;
+                }
+                if (Time.time - CookingStartTime > BurntTime)
+                {
+                    Destroy(ItemRef);
+                    ItemRef = null;
+                    ToolActive = false;
+                    return Instantiate(Items[2], new Vector3(0.0f, -5.0f, 0.0f), Quaternion.identity);
+                }
+                else if (Time.time - CookingStartTime > DoneTime)
+                {
+                    Destroy(ItemRef);
+                    ItemRef = null;
+                    ToolActive = false;
+                    return Instantiate(Items[1], new Vector3(0.0f, -5.0f, 0.0f), Quaternion.identity);
+                }
+                break;
+            //Supply Tools
             case ToolTypes.DRUGS:
                 if(DrugType == DrugTypes.BLUE)
                 {
@@ -191,6 +216,27 @@ public class Tools : MonoBehaviour
                     case ItemStateControl.ItemTypes.POWDER2:
                         ItemRef = _Item;
                         result = true;
+                        break;
+                    default: break;
+                }
+                return result;
+            case ToolTypes.BAGS:
+                switch (_Item.GetComponent<ItemStateControl>().GetItemType())
+                {
+                    case ItemStateControl.ItemTypes.DRUG1:
+                        _Item.GetComponent<MeshFilter>().mesh = BagMesh;
+                        _Item.GetComponent<MeshRenderer>().material = BagMaterial;
+                        result = false;
+                        break;
+                    case ItemStateControl.ItemTypes.DRUG2:
+                        _Item.GetComponent<MeshFilter>().mesh = BagMesh;
+                        _Item.GetComponent<MeshRenderer>().material = BagMaterial;
+                        result = false;
+                        break;
+                    case ItemStateControl.ItemTypes.DONUTCOOKED:
+                        _Item.GetComponent<MeshFilter>().mesh = BagMesh;
+                        _Item.GetComponent<MeshRenderer>().material = BagMaterial;
+                        result = false;
                         break;
                     default: break;
                 }

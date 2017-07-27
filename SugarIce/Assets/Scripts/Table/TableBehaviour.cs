@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(BoxCollider))]
+[RequireComponent(typeof(TableStateControl))]
+[RequireComponent(typeof(Tools))]
+
 public class TableBehaviour : MonoBehaviour {
 
     //[Header("Item On Table Transform")]
@@ -21,10 +25,11 @@ public class TableBehaviour : MonoBehaviour {
 
     //return the item that table is currently holding
     public GameObject GetItemOnTable()
-    {
+    {      
         //Its just a table take what you want
         if (GetComponent<Tools>().Tool == Tools.ToolTypes.NONE)
         {
+            itemOnTable.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
             GameObject temp = itemOnTable;
             RemoveItemOnTable();
             GetComponent<TableStateControl>().hasItem = false;
@@ -60,6 +65,7 @@ public class TableBehaviour : MonoBehaviour {
     public void SetItemOnTable(GameObject item)
     {
         itemOnTable = item;
+        itemOnTable.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         //move item to set transform on table
         item.transform.position = itemOnTablePos.position;
         item.transform.rotation = itemOnTablePos.rotation;
