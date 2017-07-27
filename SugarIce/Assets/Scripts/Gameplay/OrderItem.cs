@@ -25,6 +25,10 @@ public class OrderItem : MonoBehaviour {
     [Header("Order Image")]
     public Image orderImage; //graphical representation of order
 
+    //rect transform where image sits
+    [HideInInspector]
+    public RectTransform currentPos;
+
     // Use this for initialization
     void Start () {
         timeStart = Time.time;
