@@ -22,15 +22,23 @@ public class OrderBehaviour : MonoBehaviour {
 
     private float timeLastOrder = 0.0f; //time of last order
 
+    [Header("Order Positioning and Movement")]
+    public RectTransform[] orderPositions = new RectTransform[0];
+    public float moveSpeed = 25.0f; //speed orders shift positions
+
+    [Header("Canvas ref")]
+    public Canvas canvas;
+
     // Use this for initialization
 
     void Start () {
-		
+        //when level starts, create first order
+        CreateOrder();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+		//when interval passes
 	}
 
     //creates a new order and adds it to the orders queue
@@ -38,14 +46,16 @@ public class OrderBehaviour : MonoBehaviour {
     {
         //get random order from array of possible orders
         int rand = Random.Range(0, possibleOrders.Length);
+        //instantiate new order item, copy the order from possible orders into current orders
+        OrderItem newOrder = Instantiate(possibleOrders[rand], transform.position, transform.rotation) as OrderItem;
+        newOrder.transform.SetParent(canvas.transform);
         //copy the order from possible orders into current orders
-        OrderItem newOrder = possibleOrders[rand];
+        //newOrder = possibleOrders[rand];
+
         //set time of order item creation
         newOrder.timeStart = Time.time;
         //add to current orders
         currentOrders.Add(possibleOrders[rand]);
-        
-
     }
 
     //remove an object from the queue
@@ -84,6 +94,19 @@ public class OrderBehaviour : MonoBehaviour {
         if (Time.time >= currentOrders[0].orderDuration + currentOrders[0].timeStart)
         {
             currentOrders.RemoveAt(0);
+        }
+    }
+
+    //moves orders into correct position in the gui
+    private void PositionOrders()
+    {
+        //for every order currently in order list
+        for (int i = 0; i < currentOrders.Count; i++)
+        {
+            currentOrders[i].GetComponent<RectTransform>().anchoredPosition = Vector3.Lerp(
+                currentOrders[i].GetComponent<RectTransform>().anchoredPosition,
+                orderPositions[i].anchoredPosition,
+                moveSpeed);
         }
     }
 }
