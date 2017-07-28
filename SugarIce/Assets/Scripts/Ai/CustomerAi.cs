@@ -62,7 +62,7 @@ public class CustomerAi : MonoBehaviour {
             if (Time.time > lastWanderTime + wanderInterval)
             {
                 //get random destination
-                Vector3 newDestination = new Vector3(Random.Range(-storeFrontHalfWidth, storeFrontHalfWidth), transform.position.y, Random.Range(-storeFrontHalfLength, storeFrontHalfLength));
+                Vector3 newDestination = new Vector3(Random.Range(shopFrontCenter.transform.position.x - storeFrontHalfWidth, shopFrontCenter.transform.position.x + storeFrontHalfWidth), transform.position.y, Random.Range(shopFrontCenter.transform.position.z  - storeFrontHalfLength, shopFrontCenter.transform.position.z + storeFrontHalfLength));
                 //calculate the path
                 navMashAgent.CalculatePath(newDestination, navPath);
                 //if path is complete, go to it
