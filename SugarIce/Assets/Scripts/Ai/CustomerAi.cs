@@ -8,17 +8,23 @@ public class CustomerAi : MonoBehaviour {
     //navmeshagent ref
     private NavMeshAgent navMashAgent;
 
-    [Header("Transforms for NavMeshAgent")]
-    public Transform shopFrontCenter; //transform at center of shop, where ai first moves when entering
-    public Transform cashierPos; //transform pos in front of cashier
-    public Transform[] exitPos = new Transform[0]; //set of exits that the agent could take to leave
+    //order item script ref
+    [HideInInspector]
+    public OrderItem myOrder;
+    [Header("Order Image")]
+    public SpriteRenderer orderSprite; //sprite that represents the order
 
+    //order manager ref
+    private OrderBehaviour orderManager;
+
+    //level layout manager ref
+    private LevelLayoutManager layoutManager;
+
+    [Header("Transforms for NavMeshAgent")]
     private Transform wanderDestination; //destination for wandering around shop
     private Transform myExit; //the exit that this agent will take to exit
 
     [Header("Controls for NavMesh Agent")]
-    public float storeFrontHalfWidth = 3.0f; //half of the width of store front
-    public float storeFrontHalfLength = 1.0f; //half of the length of store front
     public float lastWanderTime = 0.0f; //time since last new destination 
     public float wanderInterval = 3.0f; //time that has to past to get new wander destination
 
@@ -30,12 +36,17 @@ public class CustomerAi : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        orderManager = GameObject.Find("LevelManager").GetComponent<OrderBehaviour>();
+        myOrder = GetComponent<OrderItem>();
+        layoutManager = GameObject.Find("LevelManager").GetComponent<LevelLayoutManager>();
+        orderSprite = GetComponentInChildren<SpriteRenderer>();
+
         navMashAgent = GetComponent<NavMeshAgent>();
         //move to shop center after spawning in
-        navMashAgent.SetDestination(shopFrontCenter.position);
+        navMashAgent.SetDestination(layoutManager.shopFrontCenter.position);
         //set the exit that this agent will leave from
-        int rand = Random.Range(0, exitPos.Length);
-        myExit = exitPos[rand];
+        int rand = Random.Range(0, layoutManager.exitPos.Length);
+        myExit = layoutManager.exitPos[rand];
 	}
 	
 	// Update is called once per frame
@@ -45,6 +56,36 @@ public class CustomerAi : MonoBehaviour {
         UpdateAgentState();
 
         //update destination of agent based on current state
+        UpdateAgentDestination();
+
+    }
+
+    //update the state of agent is in
+    private void UpdateAgentState()
+    {
+        //check if agent has reached end of path when leaving
+        if (isLeaving && transform.position == myExit.position)
+        {
+            //destroy this gameobject
+            Destroy(gameObject);
+        }
+        //check if agent has reached cashier and is receiving order
+        else if (isPaying && transform.position == layoutManager.cashierPos.position)
+        {
+            //set agent to leave
+            isLeaving = true;
+        }
+        //check if agent has arrived at the shop
+        else if (isArriving && navMashAgent.pathStatus == NavMeshPathStatus.PathComplete)
+        {
+            //set agent to begin wandering inside the shop
+            isWaiting = true;
+        }
+    }
+
+    //update destination
+    private void UpdateAgentDestination()
+    {
         //if leaving
         if (isLeaving)
         {
@@ -53,7 +94,7 @@ public class CustomerAi : MonoBehaviour {
         //if going to cashier
         else if (isPaying)
         {
-            navMashAgent.SetDestination(cashierPos.position);
+            navMashAgent.SetDestination(layoutManager.cashierPos.position);
         }
         //if waiting
         else if (isWaiting)
@@ -62,7 +103,7 @@ public class CustomerAi : MonoBehaviour {
             if (Time.time > lastWanderTime + wanderInterval)
             {
                 //get random destination
-                Vector3 newDestination = new Vector3(Random.Range(shopFrontCenter.transform.position.x - storeFrontHalfWidth, shopFrontCenter.transform.position.x + storeFrontHalfWidth), transform.position.y, Random.Range(shopFrontCenter.transform.position.z  - storeFrontHalfLength, shopFrontCenter.transform.position.z + storeFrontHalfLength));
+                Vector3 newDestination = new Vector3(Random.Range(layoutManager.shopFrontCenter.transform.position.x - layoutManager.storeFrontHalfWidth, layoutManager.shopFrontCenter.transform.position.x + layoutManager.storeFrontHalfWidth), transform.position.y, Random.Range(layoutManager.shopFrontCenter.transform.position.z - layoutManager.storeFrontHalfLength, layoutManager.shopFrontCenter.transform.position.z + layoutManager.storeFrontHalfLength));
                 //calculate the path
                 navMashAgent.CalculatePath(newDestination, navPath);
                 //if path is complete, go to it
@@ -83,30 +124,34 @@ public class CustomerAi : MonoBehaviour {
         //if yet to enter shop
         else if (isArriving)
         {
-            navMashAgent.SetDestination(shopFrontCenter.position);
+            navMashAgent.SetDestination(layoutManager.shopFrontCenter.position);
         }
-	}
+    }
 
-    //update the state of agent is in
-    private void UpdateAgentState()
+    //set state to leaving
+    public void SetLeave()
     {
-        //check if agent has reached end of path when leaving
-        if (isLeaving && navMashAgent.pathStatus == NavMeshPathStatus.PathComplete)
-        {
-            //destroy this gameobject
-            Destroy(gameObject);
-        }
-        //check if agent has reached cashier and is receiving order
-        else if (isPaying && navMashAgent.pathStatus == NavMeshPathStatus.PathComplete)
-        {
-            //set agent to leave
-            isLeaving = true;
-        }
-        //check if agent has arrived at the shop
-        else if (isArriving && navMashAgent.pathStatus == NavMeshPathStatus.PathComplete)
-        {
-            //set agent to begin wandering inside the shop
-            isWaiting = true;
-        }
+        isLeaving = true;
+        //hide the sprite
+        orderSprite.color = new Color(1, 1, 1, 0);
+    }
+
+    //set state to paying
+    public void SetPaying()
+    {
+        isPaying = true;
+        //hide the sprite
+        orderSprite.color = new Color(1, 1, 1, 0);
+    }
+
+    //actions after entering shop
+    public void ArriveAtShop()
+    {
+        //set waiting to true
+        isWaiting = true;
+        //show the sprite
+        orderSprite.color = new Color(1, 1, 1, 1);
+        //send this customers order to order manager
+        orderManager.RecieveOrder(myOrder);
     }
 }

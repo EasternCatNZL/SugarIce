@@ -4,17 +4,12 @@ using UnityEngine;
 
 public class OrderBehaviour : MonoBehaviour {
 
-    //mixture array
-    //private ChemicalBehaviour[] mixture = new ChemicalBehaviour[0];
-
-
-    //private ChemicalBehaviour[][] orders = new ChemicalBehaviour[0][0];
-
     [Header("Orders for level")]
     List<OrderItem> currentOrders = new List<OrderItem>();
     public OrderItem[] possibleOrders = new OrderItem[0];
-    //public OrderItem[] currentOrders = new OrderItem[0];
 
+    //list of current npc game objects
+    List<GameObject> currentCustomers = new List<GameObject>();
 
     [Header("Order functionality control")]
     public float orderIntervalMinimum = 20.0f; //minimum time that has to pass before next order arrives
@@ -22,18 +17,10 @@ public class OrderBehaviour : MonoBehaviour {
 
     private float timeLastOrder = 0.0f; //time of last order
 
-    [Header("Order Positioning and Movement")]
-    public RectTransform[] orderPositions = new RectTransform[0];
-    public float moveSpeed = 25.0f; //speed orders shift positions
-
-    [Header("Canvas ref")]
-    public Canvas canvas;
-
     // Use this for initialization
 
     void Start () {
-        //when level starts, create first order
-        CreateOrder();
+        
 	}
 	
 	// Update is called once per frame
@@ -41,6 +28,7 @@ public class OrderBehaviour : MonoBehaviour {
 		//when interval passes
 	}
 
+    /*
     //creates a new order and adds it to the orders queue
     private void CreateOrder()
     {
@@ -56,6 +44,13 @@ public class OrderBehaviour : MonoBehaviour {
         newOrder.timeStart = Time.time;
         //add to current orders
         currentOrders.Add(possibleOrders[rand]);
+    }
+    */
+
+    //recieve an order and add to list
+    public void RecieveOrder(OrderItem itemToAdd)
+    {
+        currentOrders.Add(itemToAdd);
     }
 
     //remove an object from the queue
@@ -86,27 +81,59 @@ public class OrderBehaviour : MonoBehaviour {
         }
     }
 
+    //call when order is completed
+    public void CompleteOrder(OrderItem orderToRemove)
+    {
+        //remove the order from the current orders list
+        //if item exists in list
+        if (currentOrders.Contains(orderToRemove))
+        {
+            //remove from the list
+            currentOrders.Remove(orderToRemove);
+        }
+
+        //get the customer object this order belongs to, and tell it to go to cashier
+        orderToRemove.gameObject.GetComponent<CustomerAi>().SetPaying();
+    }
+
     //check the orders, and remove expired orders
     private void RemoveExpiredOrders()
     {
         //order at front of list always the oldest
-        //if order time duration has expired, remove
+        //if order time duration has expired
         if (Time.time >= currentOrders[0].orderDuration + currentOrders[0].timeStart)
         {
+            //remove the order
             currentOrders.RemoveAt(0);
+            //have customer leave
+            currentCustomers[0].GetComponent<CustomerAi>().SetLeave();
         }
     }
 
-    //moves orders into correct position in the gui
-    private void PositionOrders()
+
+    private void OnTriggerEnter(Collider other)
     {
-        //for every order currently in order list
-        for (int i = 0; i < currentOrders.Count; i++)
+        //if a customer has entered
+        if (other.CompareTag("NPC"))
         {
-            currentOrders[i].GetComponent<RectTransform>().anchoredPosition = Vector3.Lerp(
-                currentOrders[i].GetComponent<RectTransform>().anchoredPosition,
-                orderPositions[i].anchoredPosition,
-                moveSpeed);
+            //add the customer to the customer list
+            currentCustomers.Add(other.gameObject);
+            //add the customers order to the order list
+            currentOrders.Add(other.gameObject.GetComponent<CustomerAi>().myOrder);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        //if customer has left
+        if (other.CompareTag("NPC"))
+        {
+            //if the customer exists in the list of customers
+            if (currentCustomers.Contains(other.gameObject))
+            {
+                //remove from the list
+                currentCustomers.Remove(other.gameObject);
+            }
         }
     }
 }
