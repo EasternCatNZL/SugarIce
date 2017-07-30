@@ -11,9 +11,9 @@ public class OrderBehaviour : MonoBehaviour {
     //list of current npc game objects
     List<GameObject> currentCustomers = new List<GameObject>();
 
-    [Header("Order functionality control")]
-    public float orderIntervalMinimum = 20.0f; //minimum time that has to pass before next order arrives
-    public float orderIntervalMaximum = 25.0f; //maximum time in which next order must arrive when met
+    //[Header("Order functionality control")]
+    //public float orderIntervalMinimum = 20.0f; //minimum time that has to pass before next order arrives
+    //public float orderIntervalMaximum = 25.0f; //maximum time in which next order must arrive when met
 
     private float timeLastOrder = 0.0f; //time of last order
 
@@ -56,19 +56,6 @@ public class OrderBehaviour : MonoBehaviour {
     //remove an object from the queue
     private void RemoveOrder(OrderItem itemToRemove)
     {
-
-        ////search through the current orders that exist
-        //foreach(OrderItem item in currentOrders)
-        //{
-        //    //if it exists
-        //    if (item == itemToRemove)
-        //    {
-        //        //remove the item
-        //        currentOrders.Remove(item);
-        //        //break out of the loop
-        //        break;
-        //    }
-        //}
 
         //if item exists in list
         if (currentOrders.Contains(itemToRemove))

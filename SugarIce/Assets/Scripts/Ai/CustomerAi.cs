@@ -29,6 +29,7 @@ public class CustomerAi : MonoBehaviour {
     public float wanderInterval = 3.0f; //time that has to past to get new wander destination
 
     private NavMeshPath navPath; //for checking paths when wandering
+    //set of bools controlling current action
     private bool isArriving = false;
     private bool isWaiting = false;
     private bool isPaying = false;
@@ -37,15 +38,19 @@ public class CustomerAi : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         orderManager = GameObject.Find("LevelManager").GetComponent<OrderBehaviour>();
-        myOrder = GetComponent<OrderItem>();
+
+        int rand = Random.Range(0, orderManager.possibleOrders.Length);
+        myOrder = orderManager.possibleOrders[rand];
+
         layoutManager = GameObject.Find("LevelManager").GetComponent<LevelLayoutManager>();
+
         orderSprite = GetComponentInChildren<SpriteRenderer>();
 
         navMashAgent = GetComponent<NavMeshAgent>();
         //move to shop center after spawning in
         navMashAgent.SetDestination(layoutManager.shopFrontCenter.position);
         //set the exit that this agent will leave from
-        int rand = Random.Range(0, layoutManager.exitPos.Length);
+        rand = Random.Range(0, layoutManager.exitPos.Length);
         myExit = layoutManager.exitPos[rand];
 	}
 	
@@ -72,14 +77,10 @@ public class CustomerAi : MonoBehaviour {
         //check if agent has reached cashier and is receiving order
         else if (isPaying && transform.position == layoutManager.cashierPos.position)
         {
+            //send score stuff to gameplay manager
+
             //set agent to leave
             isLeaving = true;
-        }
-        //check if agent has arrived at the shop
-        else if (isArriving && navMashAgent.pathStatus == NavMeshPathStatus.PathComplete)
-        {
-            //set agent to begin wandering inside the shop
-            isWaiting = true;
         }
     }
 
@@ -151,6 +152,8 @@ public class CustomerAi : MonoBehaviour {
         isWaiting = true;
         //show the sprite
         orderSprite.color = new Color(1, 1, 1, 1);
+        //set my order start time to now
+        myOrder.timeStart = Time.time;
         //send this customers order to order manager
         orderManager.RecieveOrder(myOrder);
     }
