@@ -1,0 +1,124 @@
+fileFormatVersion: 2
+guid: b261d0c92e8774e48a04fbce2734027c
+timeCreated: 1501492031
+licenseType: Free
+ModelImporter:
+  serializedVersion: 21
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Customer_Joe_Rig:Customer_Joe
+    100004: Customer_Joe_Rig:J_CJ_Bottom
+    100006: Customer_Joe_Rig:J_CJ_Chest
+    100008: Customer_Joe_Rig:J_CJ_Clavical
+    100010: Customer_Joe_Rig:J_CJ_Hair
+    100012: Customer_Joe_Rig:J_CJ_Head
+    100014: Customer_Joe_Rig:J_CJ_Left_Finger_1
+    100016: Customer_Joe_Rig:J_CJ_Left_Finger_2
+    100018: Customer_Joe_Rig:J_CJ_Left_Thumb_1
+    100020: Customer_Joe_Rig:J_CJ_Left_Thumb_2
+    100022: Customer_Joe_Rig:J_CJ_Left_Wrist
+    100024: Customer_Joe_Rig:J_CJ_Neck
+    100026: Customer_Joe_Rig:J_CJ_Right_Finger_1
+    100028: Customer_Joe_Rig:J_CJ_Right_Finger_2
+    100030: Customer_Joe_Rig:J_CJ_Right_Thumb_1
+    100032: Customer_Joe_Rig:J_CJ_Right_Thumb_2
+    100034: Customer_Joe_Rig:J_CJ_Right_Wrist
+    100036: Customer_Joe_Rig:J_CJ_Root
+    400000: //RootNode
+    400002: Customer_Joe_Rig:Customer_Joe
+    400004: Customer_Joe_Rig:J_CJ_Bottom
+    400006: Customer_Joe_Rig:J_CJ_Chest
+    400008: Customer_Joe_Rig:J_CJ_Clavical
+    400010: Customer_Joe_Rig:J_CJ_Hair
+    400012: Customer_Joe_Rig:J_CJ_Head
+    400014: Customer_Joe_Rig:J_CJ_Left_Finger_1
+    400016: Customer_Joe_Rig:J_CJ_Left_Finger_2
+    400018: Customer_Joe_Rig:J_CJ_Left_Thumb_1
+    400020: Customer_Joe_Rig:J_CJ_Left_Thumb_2
+    400022: Customer_Joe_Rig:J_CJ_Left_Wrist
+    400024: Customer_Joe_Rig:J_CJ_Neck
+    400026: Customer_Joe_Rig:J_CJ_Right_Finger_1
+    400028: Customer_Joe_Rig:J_CJ_Right_Finger_2
+    400030: Customer_Joe_Rig:J_CJ_Right_Thumb_1
+    400032: Customer_Joe_Rig:J_CJ_Right_Thumb_2
+    400034: Customer_Joe_Rig:J_CJ_Right_Wrist
+    400036: Customer_Joe_Rig:J_CJ_Root
+    4300000: Customer_Joe_Rig:Customer_Joe
+    7400000: Take 001
+    9500000: //RootNode
+    13700000: Customer_Joe_Rig:Customer_Joe
+  materials:
+    importMaterials: 0
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

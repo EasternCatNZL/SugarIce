@@ -85,7 +85,8 @@ public class InteractionZoneBehaviour : MonoBehaviour {
     //get the transform of position between player and interaction zone and label as front of player
     void GetFrontOfPlayer()
     {
-        frontOfPlayer = (transform.position - playerObject.position) * 0.5f;
+        //frontOfPlayer = (transform.position - playerObject.position) * 0.5f;
+        frontOfPlayer = transform.position;
     }
 
     private void OnTriggerEnter(Collider other)

@@ -36,14 +36,18 @@ public class Tools : MonoBehaviour
     [Header("Mixing Tool Settings")]
     public ItemStateControl.ItemTypes[] Recipe1;
     public ItemStateControl.ItemTypes[] Recipe2;
+    [Header("VFX")]
+    public ParticleSystem VFXInProgress = null;
+    public ParticleSystem VFXFinished = null;
     [Header("Produce Prefabs")]
     public GameObject[] Items;
 
     public Material BagMaterial;
     public Mesh BagMesh;
-
-    private int MixtureStage = 0;
-    private ItemStateControl.ItemTypes[] Mixture;
+    //Mixture variables
+    public bool MixtureDone = false;
+    public int MixtureStage = 0; //What stage is the mixture at
+    public ItemStateControl.ItemTypes[] Mixture;
 
     private GameObject ItemRef = null;
     public bool ToolActive = false;
@@ -56,6 +60,7 @@ public class Tools : MonoBehaviour
         {
             GetComponent<TableStateControl>().hasItem = true;
         }
+        Mixture = new ItemStateControl.ItemTypes[3];
     }
 
     // Update is called once per frame
@@ -80,10 +85,21 @@ public class Tools : MonoBehaviour
 
     void OvenUpdate()
     {
-        if (Time.time - CookingStartTime < DoneTime)
+        if (Time.time - CookingStartTime < BurntTime)
         {         
             ProgressBar.transform.localScale = new Vector3(ProgressBar.transform.localScale.x, 2 * ( (Time.time - CookingStartTime) / DoneTime ), ProgressBar.transform.localScale.z);
             print(ProgressBar.transform.localScale.y);
+        }
+        if (Time.time - CookingStartTime > BurntTime)
+        {
+            if (VFXInProgress.isPlaying)
+            {
+                VFXInProgress.Stop();
+            }
+            if (!VFXFinished.isPlaying)
+            {
+                VFXFinished.Play();
+            }
         }
     }
 
@@ -98,35 +114,71 @@ public class Tools : MonoBehaviour
 
     void TubeUpdate()
     {
-
+        
     }
+
+    void ValidTestTube()
+    {
+        if(Mixture[0] == Recipe1[0])
+        {
+            if(Mixture[MixtureStage] == Recipe1[MixtureStage])
+            {
+                MixtureStage++;
+            }
+            else
+            {
+                //Explode
+            }
+        }
+        else if(Mixture[0] == Recipe2[0])
+        {
+
+        }
+
+        if (MixtureStage >= 3)
+        {
+            MixtureDone = true;
+        }
+    }
+
 
     public GameObject GetItemInTool()
     {
-        print("returning item");
         switch (Tool)
         {
             case ToolTypes.OVEN:
-                if (Time.time - CookingStartTime < DoneTime)
+                if (Time.time - CookingStartTime < DoneTime) //Return Donut Dough
                 {
+                    if (VFXInProgress.isPlaying)
+                    {
+                        VFXInProgress.Stop();
+                    }
                     ToolActive = false;
                     return ItemRef;
                 }
-                if (Time.time - CookingStartTime > BurntTime)
+                if (Time.time - CookingStartTime > BurntTime) //Return Burnt Donut
                 {
+                    if (VFXFinished.isPlaying)
+                    {
+                        VFXFinished.Stop();
+                    }
                     Destroy(ItemRef);
                     ItemRef = null;
                     ToolActive = false;
                     return Instantiate(Items[2], new Vector3(0.0f, -5.0f, 0.0f), Quaternion.identity);
                 }
-                else if (Time.time - CookingStartTime > DoneTime)
+                else if (Time.time - CookingStartTime > DoneTime) //Return Cooked Donut
                 {
+                    if (VFXInProgress.isPlaying)
+                    {
+                        VFXInProgress.Stop();
+                    }
                     Destroy(ItemRef);
                     ItemRef = null;
                     ToolActive = false;
                     return Instantiate(Items[1], new Vector3(0.0f, -5.0f, 0.0f), Quaternion.identity);
-                }
-                break;
+               }
+               break;
             case ToolTypes.BURNER:
                 if (Time.time - CookingStartTime < DoneTime)
                 {
@@ -182,10 +234,13 @@ public class Tools : MonoBehaviour
                     //Start Tool Progress
                     ToolActive = true;
                     CookingStartTime = Time.time;
+                    //Run VFX
+                    if(!VFXInProgress.isPlaying)
+                    {
+                        VFXInProgress.Play();
+                    }
                     result = true;
                 }
-
-
                 return result;
             //Check item is valid for a Bunsen Burner
             case ToolTypes.BURNER:
@@ -201,23 +256,36 @@ public class Tools : MonoBehaviour
                         break;
                     default: break;
                 }
-                //Start Tool Progress
-                ToolActive = true;
-                CookingStartTime = Time.time;
+                if (result)
+                {
+                    //Start Tool Progress
+                    ToolActive = true;
+                    CookingStartTime = Time.time;
+                }
                 return result;
             //Check item is valid for a Test Tube
             case ToolTypes.TUBES:
-                switch (_Item.GetComponent<ItemStateControl>().GetItemType())
+                if (!MixtureDone)
                 {
-                    case ItemStateControl.ItemTypes.POWDER1:
-                        ItemRef = _Item;
-                        result = true;
-                        break;
-                    case ItemStateControl.ItemTypes.POWDER2:
-                        ItemRef = _Item;
-                        result = true;
-                        break;
-                    default: break;
+                    switch (_Item.GetComponent<ItemStateControl>().GetItemType())
+                    {
+                        case ItemStateControl.ItemTypes.POWDER1:
+                            ItemRef = _Item;
+                            Mixture[MixtureStage] = ItemRef.GetComponent<ItemStateControl>().GetItemType();
+                            result = true;
+                            break;
+                        case ItemStateControl.ItemTypes.POWDER2:
+                            ItemRef = _Item;
+                            Mixture[MixtureStage] = ItemRef.GetComponent<ItemStateControl>().GetItemType();
+                            result = true;
+                            break;
+                        default: break;
+                    }
+                    if (result)
+                    {
+                        ToolActive = true;
+                        ValidTestTube();
+                    }
                 }
                 return result;
             case ToolTypes.BAGS:

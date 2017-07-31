@@ -8,6 +8,7 @@ public class PlayerPickUpBehaviour : MonoBehaviour {
     //script refs
     PlayerStateControl playerState; //ref to player script refs
     InteractionZoneBehaviour interactionZone; //ref to game object that handles detection of objects for interaction
+    private Animator animator;
 
     //object ref
     GameObject heldObject = null;
@@ -39,6 +40,15 @@ public class PlayerPickUpBehaviour : MonoBehaviour {
         else
         {
             Debug.LogError("Player does not have interaction behaviour attached");
+        }
+
+        if(GetComponent<Animator>())
+        {
+            animator = GetComponent<Animator>();
+        }
+        else
+        {
+            Debug.LogError(gameObject.name + " does not have an animator attached");
         }
 
         playerID = GetComponent<PlayerMovement>().PlayerID;
@@ -83,6 +93,8 @@ public class PlayerPickUpBehaviour : MonoBehaviour {
                         //player no longer holding anything, set to null
                         heldObject = null;
                         playerState.isHolding = false;
+
+                        animator.SetBool("Holding", false);
                     }
                 }
                 //else, drop the item
@@ -91,6 +103,8 @@ public class PlayerPickUpBehaviour : MonoBehaviour {
                     //set player held to null
                     heldObject = null;
                     playerState.isHolding = false;
+
+                    animator.SetBool("Holding", false);
                 }
             }
             //else try to pick up an object
@@ -105,15 +119,18 @@ public class PlayerPickUpBehaviour : MonoBehaviour {
                         //set held object to this object
                         heldObject = interactionZone.GetClosestTable().GetComponent<TableBehaviour>().GetItemOnTable();
                         playerState.isHolding = true;
-                        //set table object to null
-                        //interactionZone.GetClosestTable().GetComponent<TableBehaviour>().RemoveItemOnTable(); //###MOVED TO GetItemOnTable FUNCTION IN TABLE BEHAVIOUR###
-                        //interactionZone.GetClosestTable().GetComponent<TableStateControl>().hasItem = false;
+
+                        animator.SetBool("Holding", true);
+                        animator.SetTrigger("Pickup");
                     }
                     //if table does not have item, try to pick up off floor
                     else if (interactionZone.GetClosestInteractable())
                     {
                         heldObject = interactionZone.GetClosestInteractable();
                         playerState.isHolding = true;
+
+                        animator.SetBool("Holding", true);
+                        animator.SetTrigger("Pickup");
                     }
                 }
                 //check for an object to pick up, if null, do nothing
@@ -121,6 +138,9 @@ public class PlayerPickUpBehaviour : MonoBehaviour {
                 {
                     heldObject = interactionZone.GetClosestInteractable();
                     playerState.isHolding = true;
+
+                    animator.SetBool("Holding", true);
+                    animator.SetTrigger("Pickup");
                 }
             }
         }

@@ -1,0 +1,152 @@
+fileFormatVersion: 2
+guid: fb2da0abc3f18e24381df08df0adfbe8
+timeCreated: 1501492045
+licenseType: Free
+ModelImporter:
+  serializedVersion: 21
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Shady_Chinese_Man_Rig:J_SCM__Root
+    100004: Shady_Chinese_Man_Rig:J_SCM_Bottom
+    100006: Shady_Chinese_Man_Rig:J_SCM_Chest
+    100008: Shady_Chinese_Man_Rig:J_SCM_Clavical
+    100010: Shady_Chinese_Man_Rig:J_SCM_Hair
+    100012: Shady_Chinese_Man_Rig:J_SCM_Head
+    100014: Shady_Chinese_Man_Rig:J_SCM_Left_Finger_1
+    100016: Shady_Chinese_Man_Rig:J_SCM_Left_Finger_2
+    100018: Shady_Chinese_Man_Rig:J_SCM_Left_Thumb_1
+    100020: Shady_Chinese_Man_Rig:J_SCM_Left_Thumb_2
+    100022: Shady_Chinese_Man_Rig:J_SCM_Left_Wrist
+    100024: Shady_Chinese_Man_Rig:J_SCM_Neck
+    100026: Shady_Chinese_Man_Rig:J_SCM_Right_Finger_1
+    100028: Shady_Chinese_Man_Rig:J_SCM_Right_Finger_2
+    100030: Shady_Chinese_Man_Rig:J_SCM_Right_Thumb_1
+    100032: Shady_Chinese_Man_Rig:J_SCM_Right_Thumb_2
+    100034: Shady_Chinese_Man_Rig:J_SCM_Right_Wrist
+    100036: Shady_Chinese_Man_Rig:Shady_Chinese_Man_Model
+    400000: //RootNode
+    400002: Shady_Chinese_Man_Rig:J_SCM__Root
+    400004: Shady_Chinese_Man_Rig:J_SCM_Bottom
+    400006: Shady_Chinese_Man_Rig:J_SCM_Chest
+    400008: Shady_Chinese_Man_Rig:J_SCM_Clavical
+    400010: Shady_Chinese_Man_Rig:J_SCM_Hair
+    400012: Shady_Chinese_Man_Rig:J_SCM_Head
+    400014: Shady_Chinese_Man_Rig:J_SCM_Left_Finger_1
+    400016: Shady_Chinese_Man_Rig:J_SCM_Left_Finger_2
+    400018: Shady_Chinese_Man_Rig:J_SCM_Left_Thumb_1
+    400020: Shady_Chinese_Man_Rig:J_SCM_Left_Thumb_2
+    400022: Shady_Chinese_Man_Rig:J_SCM_Left_Wrist
+    400024: Shady_Chinese_Man_Rig:J_SCM_Neck
+    400026: Shady_Chinese_Man_Rig:J_SCM_Right_Finger_1
+    400028: Shady_Chinese_Man_Rig:J_SCM_Right_Finger_2
+    400030: Shady_Chinese_Man_Rig:J_SCM_Right_Thumb_1
+    400032: Shady_Chinese_Man_Rig:J_SCM_Right_Thumb_2
+    400034: Shady_Chinese_Man_Rig:J_SCM_Right_Wrist
+    400036: Shady_Chinese_Man_Rig:Shady_Chinese_Man_Model
+    4300000: Shady_Chinese_Man_Rig:Shady_Chinese_Man_Model
+    7400000: ChefPanic
+    9500000: //RootNode
+    13700000: Shady_Chinese_Man_Rig:Shady_Chinese_Man_Model
+  materials:
+    importMaterials: 0
+    materialName: 2
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: ChefPanic
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 50
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
