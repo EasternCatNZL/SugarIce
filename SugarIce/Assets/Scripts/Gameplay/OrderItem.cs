@@ -5,14 +5,7 @@ using UnityEngine.UI;
 
 public class OrderItem : MonoBehaviour {
 
-    [HideInInspector]
-    public enum Actions
-    {
-        PourBlue,
-        PourOrange,
-        Heat,
-        Mix
-    }
+
 
     [Header("Time vars")]
     public float orderDuration = 60.0f; //duration of the order
@@ -20,7 +13,7 @@ public class OrderItem : MonoBehaviour {
     public float timeStart = 0.0f; //time that order was created
 
     [Header("Order")]
-    public Actions[] order; //set of actions that make up an order
+    public ItemStateControl.ItemTypes order;
 
     [Header("Order Image")]
     public Image orderImage; //graphical representation of order
