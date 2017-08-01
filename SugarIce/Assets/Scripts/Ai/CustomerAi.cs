@@ -25,10 +25,12 @@ public class CustomerAi : MonoBehaviour {
     private Transform myExit; //the exit that this agent will take to exit
 
     [Header("Controls for NavMesh Agent")]
-    public float lastWanderTime = 0.0f; //time since last new destination 
     public float wanderInterval = 3.0f; //time that has to past to get new wander destination
 
+    private float lastWanderTime = 0.0f; //time since last new destination 
+
     private NavMeshPath navPath; //for checking paths when wandering
+
     //set of bools controlling current action
     private bool isArriving = false;
     private bool isWaiting = false;
