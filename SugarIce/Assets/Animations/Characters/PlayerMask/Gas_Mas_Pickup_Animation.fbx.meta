@@ -1,0 +1,152 @@
+fileFormatVersion: 2
+guid: 5a6bec132b6dbb748b1ffd6a47050241
+timeCreated: 1501532918
+licenseType: Free
+ModelImporter:
+  serializedVersion: 21
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Gas_Mask_Goy_Rig:Gas_Mas_Model
+    100004: Gas_Mask_Goy_Rig:GM_J_Bottom
+    100006: Gas_Mask_Goy_Rig:GM_J_Chest
+    100008: Gas_Mask_Goy_Rig:GM_J_Clavical
+    100010: Gas_Mask_Goy_Rig:GM_J_Head
+    100012: Gas_Mask_Goy_Rig:GM_J_Head_Top
+    100014: Gas_Mask_Goy_Rig:GM_J_Left_Finger_1
+    100016: Gas_Mask_Goy_Rig:GM_J_Left_Finger_2
+    100018: Gas_Mask_Goy_Rig:GM_J_Left_Hand
+    100020: Gas_Mask_Goy_Rig:GM_J_Left_Thumb_1
+    100022: Gas_Mask_Goy_Rig:GM_J_Left_Thumb_2
+    100024: Gas_Mask_Goy_Rig:GM_J_Neck
+    100026: Gas_Mask_Goy_Rig:GM_J_Right_Finger_1
+    100028: Gas_Mask_Goy_Rig:GM_J_Right_Finger_2
+    100030: Gas_Mask_Goy_Rig:GM_J_Right_Hand
+    100032: Gas_Mask_Goy_Rig:GM_J_Right_Thumb_1
+    100034: Gas_Mask_Goy_Rig:GM_J_Right_Thumb_2
+    100036: Gas_Mask_Goy_Rig:GM_J_Root
+    400000: //RootNode
+    400002: Gas_Mask_Goy_Rig:Gas_Mas_Model
+    400004: Gas_Mask_Goy_Rig:GM_J_Bottom
+    400006: Gas_Mask_Goy_Rig:GM_J_Chest
+    400008: Gas_Mask_Goy_Rig:GM_J_Clavical
+    400010: Gas_Mask_Goy_Rig:GM_J_Head
+    400012: Gas_Mask_Goy_Rig:GM_J_Head_Top
+    400014: Gas_Mask_Goy_Rig:GM_J_Left_Finger_1
+    400016: Gas_Mask_Goy_Rig:GM_J_Left_Finger_2
+    400018: Gas_Mask_Goy_Rig:GM_J_Left_Hand
+    400020: Gas_Mask_Goy_Rig:GM_J_Left_Thumb_1
+    400022: Gas_Mask_Goy_Rig:GM_J_Left_Thumb_2
+    400024: Gas_Mask_Goy_Rig:GM_J_Neck
+    400026: Gas_Mask_Goy_Rig:GM_J_Right_Finger_1
+    400028: Gas_Mask_Goy_Rig:GM_J_Right_Finger_2
+    400030: Gas_Mask_Goy_Rig:GM_J_Right_Hand
+    400032: Gas_Mask_Goy_Rig:GM_J_Right_Thumb_1
+    400034: Gas_Mask_Goy_Rig:GM_J_Right_Thumb_2
+    400036: Gas_Mask_Goy_Rig:GM_J_Root
+    4300000: Gas_Mask_Goy_Rig:Gas_Mas_Model
+    7400000: MaskPickup
+    9500000: //RootNode
+    13700000: Gas_Mask_Goy_Rig:Gas_Mas_Model
+  materials:
+    importMaterials: 0
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: MaskPickup
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 13
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
