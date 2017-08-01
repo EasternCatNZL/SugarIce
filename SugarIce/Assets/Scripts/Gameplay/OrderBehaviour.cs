@@ -6,7 +6,8 @@ public class OrderBehaviour : MonoBehaviour {
 
     [Header("Orders for level")]
     List<OrderItem> currentOrders = new List<OrderItem>();
-    public OrderItem[] possibleOrders = new OrderItem[0];
+    //public OrderItem[] possibleOrders = new OrderItem[0];
+    public ItemStateControl[] possibleProducts = new ItemStateControl[0];
 
     //list of current npc game objects
     List<GameObject> currentCustomers = new List<GameObject>();
@@ -81,6 +82,23 @@ public class OrderBehaviour : MonoBehaviour {
 
         //get the customer object this order belongs to, and tell it to go to cashier
         orderToRemove.gameObject.GetComponent<CustomerAi>().SetPaying();
+    }
+
+    //complete a order, taking a itemtype of itemstatecontrol
+    public void CompleteOrder(ItemStateControl orderToRemove)
+    {
+        //loop through list
+        for (int i = 0; i < currentOrders.Count; i++)
+        {
+            //if the current orders item type matches the one given
+            if (currentOrders[i].order == orderToRemove.Type)
+            {
+                //have the customer related to this order leave
+                currentOrders[i].gameObject.GetComponent<CustomerAi>().SetPaying();
+                //remove this order
+                currentOrders.RemoveAt(i);
+            }
+        }
     }
 
     //check the orders, and remove expired orders

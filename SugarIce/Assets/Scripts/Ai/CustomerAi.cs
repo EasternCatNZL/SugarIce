@@ -11,6 +11,7 @@ public class CustomerAi : MonoBehaviour {
     //order item script ref
     [HideInInspector]
     public OrderItem myOrder;
+    //public ItemStateControl myOrder;
     [Header("Order Image")]
     public SpriteRenderer orderSprite; //sprite that represents the order
 
@@ -41,8 +42,8 @@ public class CustomerAi : MonoBehaviour {
 	void Start () {
         orderManager = GameObject.Find("LevelManager").GetComponent<OrderBehaviour>();
 
-        int rand = Random.Range(0, orderManager.possibleOrders.Length);
-        myOrder = orderManager.possibleOrders[rand];
+        int rand = Random.Range(0, orderManager.possibleProducts.Length);
+        myOrder.order = orderManager.possibleProducts[rand].Type;
 
         layoutManager = GameObject.Find("LevelManager").GetComponent<LevelLayoutManager>();
 
