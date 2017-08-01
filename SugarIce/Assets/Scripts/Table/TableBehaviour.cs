@@ -64,11 +64,20 @@ public class TableBehaviour : MonoBehaviour {
     //gives item to table
     public void SetItemOnTable(GameObject item)
     {
-        itemOnTable = item;
-        itemOnTable.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-        //move item to set transform on table
-        item.transform.position = itemOnTablePos.position;
-        item.transform.rotation = itemOnTablePos.rotation;
+        if (GetComponent<Tools>().Tool != Tools.ToolTypes.TUBES)
+        {
+            itemOnTable = item;
+            itemOnTable.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+            //move item to set transform on table
+            item.transform.position = itemOnTablePos.position;
+            item.transform.rotation = itemOnTablePos.rotation;
+        }
+        else
+        {
+            Destroy(item);
+            RemoveItemOnTable();
+            GetComponent<TableStateControl>().hasItem = false;
+        }
     }
 
     //sets item on table to null

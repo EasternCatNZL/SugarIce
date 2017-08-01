@@ -87,8 +87,7 @@ public class Tools : MonoBehaviour
     {
         if (Time.time - CookingStartTime < BurntTime)
         {         
-            ProgressBar.transform.localScale = new Vector3(ProgressBar.transform.localScale.x, 2 * ( (Time.time - CookingStartTime) / DoneTime ), ProgressBar.transform.localScale.z);
-            print(ProgressBar.transform.localScale.y);
+            ProgressBar.transform.localScale = new Vector3(ProgressBar.transform.localScale.x, 2 * ( (Time.time - CookingStartTime) / DoneTime ), ProgressBar.transform.localScale.z);         
         }
         if (Time.time - CookingStartTime > BurntTime)
         {
@@ -127,12 +126,29 @@ public class Tools : MonoBehaviour
             }
             else
             {
+                print("Explosion");
+                if (!VFXFinished.isPlaying)
+                {
+                    VFXFinished.Play();
+                }
                 //Explode
             }
         }
         else if(Mixture[0] == Recipe2[0])
         {
-
+            if (Mixture[MixtureStage] == Recipe2[MixtureStage])
+            {
+                MixtureStage++;
+            }
+            else
+            {
+                print("Explosion");
+                if (!VFXFinished.isPlaying)
+                {
+                    VFXFinished.Play();
+                }
+                //Explode
+            }
         }
 
         if (MixtureStage >= 3)
