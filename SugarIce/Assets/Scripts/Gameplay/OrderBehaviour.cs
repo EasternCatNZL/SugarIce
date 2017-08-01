@@ -69,20 +69,20 @@ public class OrderBehaviour : MonoBehaviour {
         }
     }
 
-    //call when order is completed
-    public void CompleteOrder(OrderItem orderToRemove)
-    {
-        //remove the order from the current orders list
-        //if item exists in list
-        if (currentOrders.Contains(orderToRemove))
-        {
-            //remove from the list
-            currentOrders.Remove(orderToRemove);
-        }
+    ////call when order is completed
+    //public void CompleteOrder(OrderItem orderToRemove)
+    //{
+    //    //remove the order from the current orders list
+    //    //if item exists in list
+    //    if (currentOrders.Contains(orderToRemove))
+    //    {
+    //        //remove from the list
+    //        currentOrders.Remove(orderToRemove);
+    //    }
 
-        //get the customer object this order belongs to, and tell it to go to cashier
-        orderToRemove.gameObject.GetComponent<CustomerAi>().SetPaying();
-    }
+    //    //get the customer object this order belongs to, and tell it to go to cashier
+    //    orderToRemove.gameObject.GetComponent<CustomerAi>().SetPaying();
+    //}
 
     //complete a order, taking a itemtype of itemstatecontrol
     public void CompleteOrder(ItemStateControl orderToRemove)
@@ -110,8 +110,16 @@ public class OrderBehaviour : MonoBehaviour {
         {
             //remove the order
             currentOrders.RemoveAt(0);
-            //have customer leave
-            currentCustomers[0].GetComponent<CustomerAi>().SetLeave();
+            //check if the object is attached to customer or ai
+            if (currentCustomers[0].GetComponent<CustomerAi>())
+            {
+                //have customer leave
+                currentCustomers[0].GetComponent<CustomerAi>().SetLeave();
+            }
+            else if (currentCustomers[0].GetComponent<PoliceAi>())
+            {
+                currentCustomers[0].GetComponent<PoliceAi>().SetArresting();
+            }
         }
     }
 

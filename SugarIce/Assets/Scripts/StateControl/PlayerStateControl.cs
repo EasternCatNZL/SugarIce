@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerStateControl : MonoBehaviour {
 
+    public bool isPlaying = false; //checks to see if input is allowed
     //[HideInInspector]
     public bool isHolding = false; //checks to see if player is holding something
     //[HideInInspector]

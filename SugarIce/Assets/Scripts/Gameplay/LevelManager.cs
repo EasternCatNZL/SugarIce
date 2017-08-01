@@ -45,7 +45,10 @@ public class LevelManager : MonoBehaviour {
     public void StartLevel()
     {
         //give players control of characters
-
+        for (int i = 0; i < playerArray.Length; i++)
+        {
+            playerArray[i].GetComponent<PlayerStateControl>().isPlaying = true;
+        }
         //set the start time to now
         levelTimeStart = Time.time;
         //initialise the score value
@@ -57,7 +60,10 @@ public class LevelManager : MonoBehaviour {
     public void EndLevel()
     {
         //remove control from the players
-
+        for (int i = 0; i < playerArray.Length; i++)
+        {
+            playerArray[i].GetComponent<PlayerStateControl>().isPlaying = false;
+        }
         //do game end stuff
     }
 
