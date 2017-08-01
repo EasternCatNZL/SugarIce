@@ -145,4 +145,10 @@ public class PlayerPickUpBehaviour : MonoBehaviour {
             }
         }
     }
+
+    //makes the player character panic
+    public void Panic()
+    {
+        animator.SetTrigger("Panic");
+    }
 }
