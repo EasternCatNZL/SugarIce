@@ -5,7 +5,7 @@ using UnityEngine;
 public class OrderBehaviour : MonoBehaviour {
 
     [Header("Orders for level")]
-    List<OrderItem> currentOrders = new List<OrderItem>();
+    public List<OrderItem> currentOrders = new List<OrderItem>();
     public ItemStateControl.ItemTypes[] possibleProducts = new ItemStateControl.ItemTypes[0];
     public Sprite[] productSprites = new Sprite[0];
 
@@ -68,19 +68,22 @@ public class OrderBehaviour : MonoBehaviour {
     {
         //order at front of list always the oldest
         //if order time duration has expired
-        if (Time.time >= currentOrders[0].orderDuration + currentOrders[0].timeStart)
+        if (currentOrders.Count > 0)//Don't check the first position if i doesn't exist
         {
-            //remove the order
-            currentOrders.RemoveAt(0);
-            //check if the object is attached to customer or ai
-            if (currentCustomers[0].GetComponent<CustomerAi>())
+            if (Time.time >= currentOrders[0].orderDuration + currentOrders[0].timeStart)
             {
-                //have customer leave
-                currentCustomers[0].GetComponent<CustomerAi>().SetLeave();
-            }
-            else if (currentCustomers[0].GetComponent<PoliceAi>())
-            {
-                currentCustomers[0].GetComponent<PoliceAi>().SetArresting();
+                //remove the order
+                currentOrders.RemoveAt(0);
+                //check if the object is attached to customer or ai
+                if (currentCustomers[0].GetComponent<CustomerAi>())
+                {
+                    //have customer leave
+                    currentCustomers[0].GetComponent<CustomerAi>().SetLeave();
+                }
+                else if (currentCustomers[0].GetComponent<PoliceAi>())
+                {
+                    currentCustomers[0].GetComponent<PoliceAi>().SetArresting();
+                }
             }
         }
     }
