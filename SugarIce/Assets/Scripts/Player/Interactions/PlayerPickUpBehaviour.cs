@@ -148,6 +148,19 @@ public class PlayerPickUpBehaviour : MonoBehaviour {
         }
     }
 
+    public bool DestroyHeldItem() //For the purpose of consuming the item
+    {
+        if(heldObject)
+        {
+            Destroy(heldObject);
+            heldObject = null;
+            GetComponent<PlayerStateControl>().isHolding = false;
+            animator.SetBool("Holding", false);
+            return true;
+        }
+        return false;
+    }
+
     //makes the player character panic
     public void Panic()
     {

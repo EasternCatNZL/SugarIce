@@ -21,8 +21,8 @@ public class PlayerMovement : MonoBehaviour
     public float SlowLength = 3.0f;
     private float BoostStartTime = 0.0f;
     private float SlowStartTime = 0.0f;
-    public bool Boosting = false;
-    public bool Slowing = false;
+    private bool Boosting = false;
+    private bool Slowing = false;
 
     [Range(0,1)]
     public float BoostDecay = 0.1f;
@@ -90,7 +90,7 @@ public class PlayerMovement : MonoBehaviour
         if (PlayerConnected && playerState.isPlaying)
         {
             //Activate the boost
-            if (!Boosting && !Slowing && prevState.Buttons.X == ButtonState.Released && state.Buttons.X == ButtonState.Pressed)
+            if (!Boosting && !Slowing && GetComponent<PlayerStateControl>().isHolding && prevState.Buttons.X == ButtonState.Released && state.Buttons.X == ButtonState.Pressed)
             {
                 if(VFXBoost)
                 {
@@ -102,6 +102,7 @@ public class PlayerMovement : MonoBehaviour
                 Boosting = true;
                 BoostStartTime = Time.time;
                 BoostMultipler -= BoostDecay;
+                GetComponent<PlayerPickUpBehaviour>().DestroyHeldItem();
             }
             if(Boosting) //Speed if boosting
             {
