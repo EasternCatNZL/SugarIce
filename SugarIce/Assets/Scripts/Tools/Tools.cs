@@ -15,7 +15,8 @@ public class Tools : MonoBehaviour
         DONUTS,
         DRUGS,
         BAGS,
-        DROPOFF
+        DROPOFF,
+        BIN
 
     };
 
@@ -25,6 +26,7 @@ public class Tools : MonoBehaviour
         RED
     };
 
+    public GameObject LevelManager = null;
     public ToolTypes Tool = ToolTypes.NONE;
     public GameObject ProgressBar = null;
     [Header("Supply Tool Settings")]
@@ -56,11 +58,12 @@ public class Tools : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        if(Tool == ToolTypes.DRUGS || Tool == ToolTypes.DONUTS)
+        if (Tool == ToolTypes.DRUGS || Tool == ToolTypes.DONUTS)
         {
             GetComponent<TableStateControl>().hasItem = true;
         }
         Mixture = new ItemStateControl.ItemTypes[3];
+        ResetProgressBar();
     }
 
     // Update is called once per frame
@@ -83,11 +86,26 @@ public class Tools : MonoBehaviour
         }
     }
 
+    void ResetProgressBar()
+    {
+        if (ProgressBar)
+        {
+            ProgressBar.transform.localScale = new Vector3(ProgressBar.transform.localScale.x, 0.0f, ProgressBar.transform.localScale.z);
+            ProgressBar.GetComponent<SpriteRenderer>().color = new Color(0.0f, 1.0f, 0.0f);
+        }
+    }
+
     void OvenUpdate()
     {
-        if (Time.time - CookingStartTime < BurntTime)
-        {         
-            ProgressBar.transform.localScale = new Vector3(ProgressBar.transform.localScale.x, 2 * ( (Time.time - CookingStartTime) / DoneTime ), ProgressBar.transform.localScale.z);         
+        if (Time.time - CookingStartTime < DoneTime)
+        {
+            ProgressBar.transform.localScale = new Vector3(ProgressBar.transform.localScale.x, 2.2f * ((Time.time - CookingStartTime) / DoneTime), ProgressBar.transform.localScale.z);
+        }
+        if (Time.time - CookingStartTime > DoneTime && Time.time - CookingStartTime < BurntTime)
+        {
+            float temp = BurntTime - DoneTime;
+            Color oldColor = ProgressBar.GetComponent<SpriteRenderer>().color;
+            ProgressBar.GetComponent<SpriteRenderer>().color = new Color(oldColor.r + ((255 / temp) * Time.deltaTime) / 255, oldColor.g - ((255 / temp) * Time.deltaTime) / 255, 0);
         }
         if (Time.time - CookingStartTime > BurntTime)
         {
@@ -106,14 +124,46 @@ public class Tools : MonoBehaviour
     {
         if (Time.time - CookingStartTime < DoneTime)
         {
-            ProgressBar.transform.localScale = new Vector3(ProgressBar.transform.localScale.x, 2 * ((Time.time - CookingStartTime) / DoneTime), ProgressBar.transform.localScale.z);
-            print(ProgressBar.transform.localScale.y);
+            ProgressBar.transform.localScale = new Vector3(ProgressBar.transform.localScale.x, 2.2f * ((Time.time - CookingStartTime) / DoneTime), ProgressBar.transform.localScale.z);
         }
+        if (Time.time - CookingStartTime > DoneTime && Time.time - CookingStartTime < BurntTime)
+        {
+            float temp = BurntTime - DoneTime;
+            Color oldColor = ProgressBar.GetComponent<SpriteRenderer>().color;
+            ProgressBar.GetComponent<SpriteRenderer>().color = new Color(oldColor.r + ((255 / temp) * Time.deltaTime) / 255, oldColor.g - ((255 / temp) * Time.deltaTime) / 255, 0);
+        }
+        if (Time.time - CookingStartTime > BurntTime)
+        {
+            if (VFXInProgress.isPlaying)
+            {
+                VFXInProgress.Stop();
+            }
+            if (!VFXFinished.isPlaying)
+            {
+                VFXFinished.Play();
+            }
+            Destroy(ItemRef);
+            ItemRef = null;
+            GetComponent<TableStateControl>().hasItem = false;
+            ToolActive = false;
+            ResetProgressBar();
+        }
+    }
+
+    void ResetTube()
+    {
+        print("Reseting Tubes");
+        Mixture[0] = ItemStateControl.ItemTypes.DONUTBURNT;
+        Mixture[1] = ItemStateControl.ItemTypes.DONUTBURNT;
+        Mixture[2] = ItemStateControl.ItemTypes.DONUTBURNT;
+
+        MixtureStage = 0;
+        MixtureDone = false;
     }
 
     void TubeUpdate()
     {
-        
+
     }
 
     void ValidTestTube()
@@ -131,7 +181,14 @@ public class Tools : MonoBehaviour
                 {
                     VFXFinished.Play();
                 }
-                //Explode
+                ResetTube();
+            }
+            if(MixtureStage >= 3)
+            {
+                MixtureDone = true;
+                ItemRef = Instantiate(Items[5], new Vector3(0.0f, -5.0f, 0.0f), Quaternion.identity);
+                this.GetComponent<TableStateControl>().hasItem = true;
+                print(GetComponent<TableStateControl>().hasItem);
             }
         }
         else if(Mixture[0] == Recipe2[0])
@@ -147,19 +204,21 @@ public class Tools : MonoBehaviour
                 {
                     VFXFinished.Play();
                 }
-                //Explode
+                ResetTube();
             }
-        }
-
-        if (MixtureStage >= 3)
-        {
-            MixtureDone = true;
+            if (MixtureStage >= 3)
+            {
+                MixtureDone = true;
+                ItemRef = Instantiate(Items[6], new Vector3(0.0f, -5.0f, 0.0f), Quaternion.identity);
+                this.GetComponent<TableStateControl>().hasItem = true;
+            }
         }
     }
 
 
     public GameObject GetItemInTool()
     {
+        ResetProgressBar();
         switch (Tool)
         {
             case ToolTypes.OVEN:
@@ -170,6 +229,7 @@ public class Tools : MonoBehaviour
                         VFXInProgress.Stop();
                     }
                     ToolActive = false;
+                    ItemRef.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
                     return ItemRef;
                 }
                 if (Time.time - CookingStartTime > BurntTime) //Return Burnt Donut
@@ -196,9 +256,15 @@ public class Tools : MonoBehaviour
                }
                break;
             case ToolTypes.BURNER:
+                if (VFXInProgress.isPlaying)
+                {
+                    VFXInProgress.Stop();
+                }
                 if (Time.time - CookingStartTime < DoneTime)
                 {
+
                     ToolActive = false;
+                    ItemRef.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
                     return ItemRef;
                 }
                 if (Time.time - CookingStartTime > BurntTime)
@@ -206,14 +272,21 @@ public class Tools : MonoBehaviour
                     Destroy(ItemRef);
                     ItemRef = null;
                     ToolActive = false;
-                    return Instantiate(Items[2], new Vector3(0.0f, -5.0f, 0.0f), Quaternion.identity);
+                    return null;
                 }
                 else if (Time.time - CookingStartTime > DoneTime)
                 {
+                    int DrugIndex = 0;
+                    if (ItemRef.GetComponent<ItemStateControl>().Type == ItemStateControl.ItemTypes.MIX1)
+                        DrugIndex = 7;
+                    else if (ItemRef.GetComponent<ItemStateControl>().Type == ItemStateControl.ItemTypes.MIX2)
+                        DrugIndex = 8;
+
                     Destroy(ItemRef);
                     ItemRef = null;
                     ToolActive = false;
-                    return Instantiate(Items[1], new Vector3(0.0f, -5.0f, 0.0f), Quaternion.identity);
+                   
+                    return Instantiate(Items[DrugIndex], new Vector3(0.0f, -5.0f, 0.0f), Quaternion.identity);
                 }
                 break;
             //Supply Tools
@@ -229,6 +302,9 @@ public class Tools : MonoBehaviour
                 break;
             case ToolTypes.DONUTS:
                 return Instantiate(Items[0], new Vector3(0.0f, -5.0f, 0.0f), Quaternion.identity);
+            case ToolTypes.TUBES:
+                ResetTube();
+                return ItemRef;
         }
         ToolActive = false;
         return ItemRef;
@@ -263,9 +339,6 @@ public class Tools : MonoBehaviour
                 switch (_Item.GetComponent<ItemStateControl>().GetItemType())
                 {
                     case ItemStateControl.ItemTypes.MIX1:
-                        ItemRef = _Item;
-                        result = true;
-                        break;
                     case ItemStateControl.ItemTypes.MIX2:
                         ItemRef = _Item;
                         result = true;
@@ -274,6 +347,11 @@ public class Tools : MonoBehaviour
                 }
                 if (result)
                 {
+                    //Run VFX
+                    if (!VFXInProgress.isPlaying)
+                    {
+                        VFXInProgress.Play();
+                    }
                     //Start Tool Progress
                     ToolActive = true;
                     CookingStartTime = Time.time;
@@ -286,10 +364,6 @@ public class Tools : MonoBehaviour
                     switch (_Item.GetComponent<ItemStateControl>().GetItemType())
                     {
                         case ItemStateControl.ItemTypes.POWDER1:
-                            ItemRef = _Item;
-                            Mixture[MixtureStage] = ItemRef.GetComponent<ItemStateControl>().GetItemType();
-                            result = true;
-                            break;
                         case ItemStateControl.ItemTypes.POWDER2:
                             ItemRef = _Item;
                             Mixture[MixtureStage] = ItemRef.GetComponent<ItemStateControl>().GetItemType();
@@ -308,15 +382,7 @@ public class Tools : MonoBehaviour
                 switch (_Item.GetComponent<ItemStateControl>().GetItemType())
                 {
                     case ItemStateControl.ItemTypes.DRUG1:
-                        _Item.GetComponent<MeshFilter>().mesh = BagMesh;
-                        _Item.GetComponent<MeshRenderer>().material = BagMaterial;
-                        result = false;
-                        break;
                     case ItemStateControl.ItemTypes.DRUG2:
-                        _Item.GetComponent<MeshFilter>().mesh = BagMesh;
-                        _Item.GetComponent<MeshRenderer>().material = BagMaterial;
-                        result = false;
-                        break;
                     case ItemStateControl.ItemTypes.DONUTCOOKED:
                         _Item.GetComponent<MeshFilter>().mesh = BagMesh;
                         _Item.GetComponent<MeshRenderer>().material = BagMaterial;
@@ -325,6 +391,25 @@ public class Tools : MonoBehaviour
                     default: break;
                 }
                 return result;
+            case ToolTypes.DROPOFF:
+                if(_Item.GetComponent<ItemStateControl>().Bagged == true)
+                {
+                    if(LevelManager)
+                    {
+                        LevelManager.GetComponent<OrderBehaviour>().CompleteOrder(_Item.GetComponent<ItemStateControl>());
+
+                    }
+                    result = true;
+                }
+                return result;
+            case ToolTypes.BIN:
+                Destroy(_Item);
+                ItemRef = null;
+                GetComponent<TableStateControl>().hasItem = false;
+                ToolActive = false;
+                result = true;
+                return result;
+
         }
         return result;
     }

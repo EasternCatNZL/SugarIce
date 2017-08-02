@@ -5,8 +5,8 @@ using UnityEngine;
 public class InteractionZoneBehaviour : MonoBehaviour {
 
     //list of colliders, needed for interaction
-    List<Collider> collidedObjects = new List<Collider>(); //for interactables
-    List<Collider> tableObjects = new List<Collider>(); //for bench/tables
+    public List<Collider> collidedObjects = new List<Collider>(); //for interactables
+    public List<Collider> tableObjects = new List<Collider>(); //for bench/tables
 
     //parent ref
     [Header("Parent object")]

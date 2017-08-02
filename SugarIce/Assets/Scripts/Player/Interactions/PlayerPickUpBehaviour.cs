@@ -88,7 +88,6 @@ public class PlayerPickUpBehaviour : MonoBehaviour {
                     if (interactionZone.GetClosestTable().GetComponent<TableBehaviour>().ValidTable(heldObject))
                     {
                         //give item to the table
-                        interactionZone.GetClosestTable().GetComponent<TableStateControl>().hasItem = true;
                         interactionZone.GetClosestTable().GetComponent<TableBehaviour>().SetItemOnTable(heldObject);
                         //player no longer holding anything, set to null
                         heldObject = null;

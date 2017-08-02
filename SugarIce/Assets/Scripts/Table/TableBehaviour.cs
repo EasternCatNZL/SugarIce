@@ -55,7 +55,6 @@ public class TableBehaviour : MonoBehaviour {
         //Check there is no item on the table and that the item is valid with the tool
         if(!itemOnTable && GetComponent<Tools>().ValidItem(_Item))
         {
-            RemoveItemOnTable();
             return true;
         }
         return false;
@@ -64,8 +63,9 @@ public class TableBehaviour : MonoBehaviour {
     //gives item to table
     public void SetItemOnTable(GameObject item)
     {
-        if (GetComponent<Tools>().Tool != Tools.ToolTypes.TUBES)
+        if (GetComponent<Tools>().Tool != Tools.ToolTypes.TUBES && GetComponent<Tools>().Tool != Tools.ToolTypes.BIN && GetComponent<Tools>().Tool != Tools.ToolTypes.DROPOFF)
         {
+            GetComponent<TableStateControl>().hasItem = true;
             itemOnTable = item;
             itemOnTable.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
             //move item to set transform on table
@@ -74,9 +74,8 @@ public class TableBehaviour : MonoBehaviour {
         }
         else
         {
-            Destroy(item);
-            RemoveItemOnTable();
-            GetComponent<TableStateControl>().hasItem = false;
+            Destroy(item);         
+            RemoveItemOnTable();        
         }
     }
 
