@@ -62,8 +62,11 @@ public class PlayerPickUpBehaviour : MonoBehaviour {
             heldObject.transform.position = heldObjectPos.position;
             heldObject.transform.rotation = heldObjectPos.rotation;
         }
-
-        PickUpInteract();
+        //if input allowed
+        if (playerState.isPlaying)
+        {
+            PickUpInteract();
+        }
 	}
 
     //when pickup button pressed, do things based on player state
