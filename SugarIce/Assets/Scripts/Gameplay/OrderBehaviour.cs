@@ -14,15 +14,18 @@ public class OrderBehaviour : MonoBehaviour {
 
     private float timeLastOrder = 0.0f; //time of last order
 
+    private LevelLayoutManager layoutManager;
+
     // Use this for initialization
 
     void Start () {
-        
+        layoutManager = GameObject.Find("LevelManager").GetComponent<LevelLayoutManager>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
         RemoveExpiredOrders();
+        ArrangeQueue();
 	}
 
     //recieve an order and add to list
@@ -34,7 +37,6 @@ public class OrderBehaviour : MonoBehaviour {
     //remove an object from the queue
     private void RemoveOrder(OrderItem itemToRemove)
     {
-
         //if item exists in list
         if (currentOrders.Contains(itemToRemove))
         {
@@ -67,9 +69,9 @@ public class OrderBehaviour : MonoBehaviour {
     private void RemoveExpiredOrders()
     {
         //order at front of list always the oldest
-        //if order time duration has expired
         if (currentOrders.Count > 0)//Don't check the first position if i doesn't exist
         {
+            //if order time duration has expired
             if (Time.time >= currentOrders[0].orderDuration + currentOrders[0].timeStart)
             {
                 //remove the order
@@ -97,7 +99,17 @@ public class OrderBehaviour : MonoBehaviour {
             //add the customer to the customer list
             currentCustomers.Add(other.gameObject);
             //add the customers order to the order list
-            currentOrders.Add(other.gameObject.GetComponent<CustomerAi>().myOrder);
+            //currentOrders.Add(other.gameObject.GetComponent<CustomerAi>().myOrder);
+            if (other.gameObject.GetComponent<CustomerAi>())
+            {
+                other.gameObject.GetComponent<CustomerAi>().ArriveAtShop();
+                print("Added customer");
+            }
+            else if (other.gameObject.GetComponent<PoliceAi>())
+            {
+                other.gameObject.GetComponent<PoliceAi>().ArriveAtShop();
+                print ("Added police");
+            }
         }
     }
 
@@ -111,6 +123,24 @@ public class OrderBehaviour : MonoBehaviour {
             {
                 //remove from the list
                 currentCustomers.Remove(other.gameObject);
+            }
+        }
+    }
+
+    //sends the transforms of which customers should form a queue to current customers
+    public void ArrangeQueue()
+    {
+        //loop through list
+        for (int i = 0; i < currentCustomers.Count; i++)
+        {
+            //based on if customer or police
+            if (currentCustomers[i].GetComponent<CustomerAi>())
+            {
+                currentCustomers[i].GetComponent<CustomerAi>().SetQueuePos(layoutManager.queuePos[i]);
+            }
+            else if (currentCustomers[i].GetComponent<PoliceAi>())
+            {
+                currentCustomers[i].GetComponent<PoliceAi>().SetQueuePos(layoutManager.queuePos[i]);
             }
         }
     }

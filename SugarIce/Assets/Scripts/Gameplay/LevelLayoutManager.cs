@@ -8,6 +8,7 @@ public class LevelLayoutManager : MonoBehaviour {
     public Transform shopFrontCenter; //transform at center of shop, where ai first moves when entering
     public Transform cashierPos; //transform pos in front of cashier
     public Transform[] policeWaitPos = new Transform[0]; //set of pos that police will wait at
+    public Transform[] queuePos = new Transform[0]; //set of pos which represent queue positions
     public Transform[] exitPos = new Transform[0]; //set of exits that the agent could take to leave
     public Transform arrestPos; //transform police moves to when arresting
 

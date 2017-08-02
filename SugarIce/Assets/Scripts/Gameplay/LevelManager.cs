@@ -56,9 +56,11 @@ public class LevelManager : MonoBehaviour {
                 int randCustomer = Random.Range(0, customerArray.Length);
                 //spawn the customer
                 Instantiate(customerArray[randCustomer], layoutManager.exitPos[randSpawn].transform.position, layoutManager.exitPos[randSpawn].rotation);
+                //set last spawn time to now
                 lastCustomerSpawnTime = Time.time;
+                //increase the current customer count
+                currentNumCustomers++;
             }
-            
         }
     }
 

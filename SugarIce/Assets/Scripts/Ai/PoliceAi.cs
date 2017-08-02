@@ -24,6 +24,7 @@ public class PoliceAi : MonoBehaviour {
     private LevelLayoutManager layoutManager;
 
     [Header("Transforms for NavMeshAgent")]
+    private Transform queuePos; //pos in queue the customer is in
     private Transform wanderDestination; //destination for wandering around shop
     private Transform myWaitPos; //the pos that police will stand in in shop while waiting
     private Transform myExit; //the exit that this agent will take to exit
@@ -49,6 +50,8 @@ public class PoliceAi : MonoBehaviour {
         layoutManager = GameObject.Find("LevelManager").GetComponent<LevelLayoutManager>();
 
         orderSprite = GetComponentInChildren<SpriteRenderer>();
+        orderSprite.color = new Color(1, 1, 1, 0);
+
 
         navMashAgent = GetComponent<NavMeshAgent>();
         //move to shop center after spawning in
@@ -69,7 +72,6 @@ public class PoliceAi : MonoBehaviour {
     void Update()
     {
         //change behaviour states if paths have completed
-
         UpdateAgentState();
 
         //update destination of agent based on current state
@@ -126,27 +128,8 @@ public class PoliceAi : MonoBehaviour {
         //if waiting
         else if (isWaiting)
         {
-            //check if time has passed to pick new wander destination
-            if (Time.time > lastWanderTime + wanderInterval)
-            {
-                //get random destination
-                Vector3 newDestination = new Vector3(Random.Range(layoutManager.shopFrontCenter.transform.position.x - layoutManager.storeFrontHalfWidth, layoutManager.shopFrontCenter.transform.position.x + layoutManager.storeFrontHalfWidth), transform.position.y, Random.Range(layoutManager.shopFrontCenter.transform.position.z - layoutManager.storeFrontHalfLength, layoutManager.shopFrontCenter.transform.position.z + layoutManager.storeFrontHalfLength));
-                //calculate the path
-                navMashAgent.CalculatePath(newDestination, navPath);
-                //if path is complete, go to it
-                if (navPath.status == NavMeshPathStatus.PathComplete)
-                {
-                    wanderDestination.position = newDestination;
-                    navMashAgent.SetDestination(wanderDestination.position);
-                    //set last location change time to now
-                    lastWanderTime = Time.time;
-                }
-            }
-            //if not yet time to get new location
-            else
-            {
-                navMashAgent.SetDestination(wanderDestination.position);
-            }
+            //move to queue pos if not already there
+            navMashAgent.SetDestination(queuePos.position);
         }
         //if yet to enter shop
         else if (isArriving)
@@ -188,5 +171,11 @@ public class PoliceAi : MonoBehaviour {
     public void SetArresting()
     {
         isArresting = true;
+    }
+
+    //set the queue position for this customer
+    public void SetQueuePos(Transform pos)
+    {
+        queuePos = pos;
     }
 }
