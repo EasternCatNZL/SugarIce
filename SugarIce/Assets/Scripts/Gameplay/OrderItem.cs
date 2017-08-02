@@ -16,7 +16,7 @@ public class OrderItem : MonoBehaviour {
     public ItemStateControl.ItemTypes order;
 
     [Header("Order Image")]
-    public Image orderImage; //graphical representation of order
+    public Sprite orderImage; //graphical representation of order
 
     //rect transform where image sits
     [HideInInspector]

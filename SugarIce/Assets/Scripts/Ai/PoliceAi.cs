@@ -17,6 +17,9 @@ public class PoliceAi : MonoBehaviour {
     //order manager ref
     private OrderBehaviour orderManager;
 
+    //level manager ref
+    private LevelManager levelManager;
+
     //level layout manager ref
     private LevelLayoutManager layoutManager;
 
@@ -42,7 +45,7 @@ public class PoliceAi : MonoBehaviour {
     void Start()
     {
         orderManager = GameObject.Find("LevelManager").GetComponent<OrderBehaviour>();
-
+        myOrder = GetComponent<OrderItem>();
         layoutManager = GameObject.Find("LevelManager").GetComponent<LevelLayoutManager>();
 
         orderSprite = GetComponentInChildren<SpriteRenderer>();
@@ -58,6 +61,8 @@ public class PoliceAi : MonoBehaviour {
         myWaitPos = layoutManager.policeWaitPos[rand];
 
         arrestPos = GameObject.Find("LevelManager").GetComponent<LevelLayoutManager>().arrestPos;
+
+        levelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
     }
 
     // Update is called once per frame
@@ -70,6 +75,8 @@ public class PoliceAi : MonoBehaviour {
         //update destination of agent based on current state
         UpdateAgentDestination();
 
+        //have the order image face the camera
+        orderSprite.gameObject.transform.LookAt(Camera.main.transform);
     }
 
     //update the state of agent is in
@@ -83,6 +90,8 @@ public class PoliceAi : MonoBehaviour {
         //check if agent has reached end of path when leaving
         else if (isLeaving && transform.position == myExit.position)
         {
+            //reduce the number of customers curretnly in world
+            levelManager.RemoveLeavingCustomer();
             //destroy this gameobject
             Destroy(gameObject);
         }

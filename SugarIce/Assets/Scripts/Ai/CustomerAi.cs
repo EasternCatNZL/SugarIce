@@ -18,6 +18,9 @@ public class CustomerAi : MonoBehaviour {
     //order manager ref
     private OrderBehaviour orderManager;
 
+    //level manager ref
+    private LevelManager levelManager;
+
     //level layout manager ref
     private LevelLayoutManager layoutManager;
 
@@ -41,9 +44,11 @@ public class CustomerAi : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         orderManager = GameObject.Find("LevelManager").GetComponent<OrderBehaviour>();
+        myOrder = GetComponent<OrderItem>();
 
         int rand = Random.Range(0, orderManager.possibleProducts.Length);
-        myOrder.order = orderManager.possibleProducts[rand].Type;
+        myOrder.order = orderManager.possibleProducts[rand];
+        orderSprite.sprite = orderManager.productSprites[rand];
 
         layoutManager = GameObject.Find("LevelManager").GetComponent<LevelLayoutManager>();
 
@@ -55,6 +60,8 @@ public class CustomerAi : MonoBehaviour {
         //set the exit that this agent will leave from
         rand = Random.Range(0, layoutManager.exitPos.Length);
         myExit = layoutManager.exitPos[rand];
+
+        levelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
 	}
 	
 	// Update is called once per frame
@@ -66,6 +73,8 @@ public class CustomerAi : MonoBehaviour {
         //update destination of agent based on current state
         UpdateAgentDestination();
 
+        //have the order image face the camera
+        orderSprite.gameObject.transform.LookAt(Camera.main.transform);
     }
 
     //update the state of agent is in
@@ -74,6 +83,8 @@ public class CustomerAi : MonoBehaviour {
         //check if agent has reached end of path when leaving
         if (isLeaving && transform.position == myExit.position)
         {
+            //reduce the number of customers curretnly in world
+            levelManager.RemoveLeavingCustomer();
             //destroy this gameobject
             Destroy(gameObject);
         }

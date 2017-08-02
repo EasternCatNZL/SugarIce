@@ -17,6 +17,8 @@ public class PlayerMovement : MonoBehaviour
     [Range(0,1)]
     public float Deadzone = 0.1f;
 
+    private PlayerStateControl playerState;
+
     private Vector3 Direction;
     private Vector3 PrevDirection;
 
@@ -42,12 +44,14 @@ public class PlayerMovement : MonoBehaviour
 
         Rigid = GetComponent<Rigidbody>();
         Rigid.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+
+        playerState = GetComponent<PlayerStateControl>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (PlayerConnected)
+        if (PlayerConnected && playerState.isPlaying)
         {
             state = GamePad.GetState(PlayerID);
             prevState = state;
