@@ -70,6 +70,8 @@ public class PoliceAi : MonoBehaviour {
         //update destination of agent based on current state
         UpdateAgentDestination();
 
+        //have the order image face the camera
+        orderSprite.gameObject.transform.LookAt(Camera.main.transform);
     }
 
     //update the state of agent is in

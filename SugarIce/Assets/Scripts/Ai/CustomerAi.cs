@@ -43,7 +43,8 @@ public class CustomerAi : MonoBehaviour {
         orderManager = GameObject.Find("LevelManager").GetComponent<OrderBehaviour>();
 
         int rand = Random.Range(0, orderManager.possibleProducts.Length);
-        myOrder.order = orderManager.possibleProducts[rand].Type;
+        myOrder.order = orderManager.possibleProducts[rand];
+        orderSprite.sprite = orderManager.productSprites[rand];
 
         layoutManager = GameObject.Find("LevelManager").GetComponent<LevelLayoutManager>();
 
@@ -66,6 +67,8 @@ public class CustomerAi : MonoBehaviour {
         //update destination of agent based on current state
         UpdateAgentDestination();
 
+        //have the order image face the camera
+        orderSprite.gameObject.transform.LookAt(Camera.main.transform);
     }
 
     //update the state of agent is in
