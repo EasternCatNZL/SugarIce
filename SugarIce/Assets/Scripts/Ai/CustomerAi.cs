@@ -41,6 +41,7 @@ public class CustomerAi : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         orderManager = GameObject.Find("LevelManager").GetComponent<OrderBehaviour>();
+        myOrder = GetComponent<OrderItem>();
 
         int rand = Random.Range(0, orderManager.possibleProducts.Length);
         myOrder.order = orderManager.possibleProducts[rand];

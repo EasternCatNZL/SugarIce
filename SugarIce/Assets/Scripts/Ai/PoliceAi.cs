@@ -42,7 +42,7 @@ public class PoliceAi : MonoBehaviour {
     void Start()
     {
         orderManager = GameObject.Find("LevelManager").GetComponent<OrderBehaviour>();
-
+        myOrder = GetComponent<OrderItem>();
         layoutManager = GameObject.Find("LevelManager").GetComponent<LevelLayoutManager>();
 
         orderSprite = GetComponentInChildren<SpriteRenderer>();
