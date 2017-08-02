@@ -9,8 +9,24 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement Settings")]
     public float Speed = 5.0f;
+    public float CurrentSpeed = 0.0f;
     [Range(0,1)]
     public float TurnRate = 0.2f; //Must be set between 1 - 0
+
+    [Header("Boost Settings")]
+    public ParticleSystem VFXBoost = null;
+    public float BoostAmount = 2.0f;
+    public float BoostLength = 5.0f;
+    public float SlowAmount = 2.0f;
+    public float SlowLength = 3.0f;
+    private float BoostStartTime = 0.0f;
+    private float SlowStartTime = 0.0f;
+    public bool Boosting = false;
+    public bool Slowing = false;
+
+    [Range(0,1)]
+    public float BoostDecay = 0.1f;
+    private float BoostMultipler = 1.0f;
 
     [Header("Controller Settings")]
     public PlayerIndex PlayerID;
@@ -51,8 +67,55 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        prevState = state;
+        state = GamePad.GetState(PlayerID);
+
+        if(Boosting && Time.time - BoostStartTime > BoostLength)
+        {
+            Boosting = false;
+            Slowing = true;
+            SlowStartTime = Time.time;
+        }
+        else if(Slowing && Time.time - SlowStartTime > SlowLength)
+        {
+            Slowing = false;
+            if (VFXBoost)
+            {
+                if (VFXBoost.isPlaying)
+                {
+                    VFXBoost.Stop();
+                }
+            }
+        }
         if (PlayerConnected && playerState.isPlaying)
         {
+            //Activate the boost
+            if (!Boosting && !Slowing && prevState.Buttons.X == ButtonState.Released && state.Buttons.X == ButtonState.Pressed)
+            {
+                if(VFXBoost)
+                {
+                    if(!VFXBoost.isPlaying)
+                    {
+                        VFXBoost.Play();
+                    }
+                }
+                Boosting = true;
+                BoostStartTime = Time.time;
+                BoostMultipler -= BoostDecay;
+            }
+            if(Boosting) //Speed if boosting
+            {
+                CurrentSpeed = Speed + (BoostAmount * BoostMultipler);
+            }
+            else if (Slowing)//Speed if slowed
+            {
+                CurrentSpeed = Speed - SlowAmount;
+            }
+            else//Normal speed
+            {
+                CurrentSpeed = Speed;
+            }
+
             state = GamePad.GetState(PlayerID);
             prevState = state;
 
@@ -77,7 +140,7 @@ public class PlayerMovement : MonoBehaviour
             //Move the player forward
             if(state.ThumbSticks.Left.X + state.ThumbSticks.Left.Y > Deadzone || state.ThumbSticks.Left.X + state.ThumbSticks.Left.Y < -Deadzone)
             {
-                Rigid.MovePosition(transform.position + transform.forward * Speed * Time.deltaTime);
+                Rigid.MovePosition(transform.position + transform.forward * CurrentSpeed * Time.deltaTime);
             }
 
         }
