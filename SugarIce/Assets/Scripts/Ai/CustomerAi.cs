@@ -18,6 +18,9 @@ public class CustomerAi : MonoBehaviour {
     //order manager ref
     private OrderBehaviour orderManager;
 
+    //level manager ref
+    private LevelManager levelManager;
+
     //level layout manager ref
     private LevelLayoutManager layoutManager;
 
@@ -57,6 +60,8 @@ public class CustomerAi : MonoBehaviour {
         //set the exit that this agent will leave from
         rand = Random.Range(0, layoutManager.exitPos.Length);
         myExit = layoutManager.exitPos[rand];
+
+        levelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
 	}
 	
 	// Update is called once per frame
@@ -78,6 +83,8 @@ public class CustomerAi : MonoBehaviour {
         //check if agent has reached end of path when leaving
         if (isLeaving && transform.position == myExit.position)
         {
+            //reduce the number of customers curretnly in world
+            levelManager.RemoveLeavingCustomer();
             //destroy this gameobject
             Destroy(gameObject);
         }

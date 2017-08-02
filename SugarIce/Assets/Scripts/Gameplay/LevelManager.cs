@@ -13,7 +13,9 @@ public class LevelManager : MonoBehaviour {
     public GameObject[] customerArray = new GameObject[0]; //array of customers that can spawn
 
     [Header("Spawn Controls")]
-    public float maxCustomers = 5.0f;
+    public int maxCustomers = 5; //maximum number of customers allowed in the world at a time
+
+    private int currentNumCustomers = 0; //the current number of customers
 
     [Header("Time Vars")]
     public float levelTimeLimit = 300.0f; //the total time in seconds that the level lasts for
@@ -43,13 +45,20 @@ public class LevelManager : MonoBehaviour {
     //spawn a new customer if interval has passed
     private void SpawnNewCustomer()
     {
+        //check time has passed
         if (Time.time > lastCustomerSpawnTime + newCustomerInterval)
         {
-            int randSpawn = Random.Range(0, layoutManager.exitPos.Length);
-            int randCustomer = Random.Range(0, customerArray.Length);
-
-            Instantiate(customerArray[randCustomer], layoutManager.exitPos[randSpawn].transform.position, layoutManager.exitPos[randSpawn].rotation);
-            lastCustomerSpawnTime = Time.time;
+            //check if current customers does not exceed max number
+            if (currentNumCustomers <= maxCustomers)
+            {
+                //get random seed of customer and spawn location
+                int randSpawn = Random.Range(0, layoutManager.exitPos.Length);
+                int randCustomer = Random.Range(0, customerArray.Length);
+                //spawn the customer
+                Instantiate(customerArray[randCustomer], layoutManager.exitPos[randSpawn].transform.position, layoutManager.exitPos[randSpawn].rotation);
+                lastCustomerSpawnTime = Time.time;
+            }
+            
         }
     }
 
@@ -103,5 +112,11 @@ public class LevelManager : MonoBehaviour {
         }
 
         //do game over stuff
+    }
+
+    //decrease the customers by one
+    public void RemoveLeavingCustomer()
+    {
+        currentNumCustomers--;
     }
 }

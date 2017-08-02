@@ -6,16 +6,11 @@ public class OrderBehaviour : MonoBehaviour {
 
     [Header("Orders for level")]
     List<OrderItem> currentOrders = new List<OrderItem>();
-    //public OrderItem[] possibleOrders = new OrderItem[0];
     public ItemStateControl.ItemTypes[] possibleProducts = new ItemStateControl.ItemTypes[0];
     public Sprite[] productSprites = new Sprite[0];
 
     //list of current npc game objects
     List<GameObject> currentCustomers = new List<GameObject>();
-
-    //[Header("Order functionality control")]
-    //public float orderIntervalMinimum = 20.0f; //minimum time that has to pass before next order arrives
-    //public float orderIntervalMaximum = 25.0f; //maximum time in which next order must arrive when met
 
     private float timeLastOrder = 0.0f; //time of last order
 
@@ -27,27 +22,8 @@ public class OrderBehaviour : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		//when interval passes
+        RemoveExpiredOrders();
 	}
-
-    /*
-    //creates a new order and adds it to the orders queue
-    private void CreateOrder()
-    {
-        //get random order from array of possible orders
-        int rand = Random.Range(0, possibleOrders.Length);
-        //instantiate new order item, copy the order from possible orders into current orders
-        OrderItem newOrder = Instantiate(possibleOrders[rand], transform.position, transform.rotation) as OrderItem;
-        newOrder.transform.SetParent(canvas.transform);
-        //copy the order from possible orders into current orders
-        //newOrder = possibleOrders[rand];
-
-        //set time of order item creation
-        newOrder.timeStart = Time.time;
-        //add to current orders
-        currentOrders.Add(possibleOrders[rand]);
-    }
-    */
 
     //recieve an order and add to list
     public void RecieveOrder(OrderItem itemToAdd)
@@ -69,21 +45,6 @@ public class OrderBehaviour : MonoBehaviour {
             Destroy(itemToRemove.gameObject);
         }
     }
-
-    ////call when order is completed
-    //public void CompleteOrder(OrderItem orderToRemove)
-    //{
-    //    //remove the order from the current orders list
-    //    //if item exists in list
-    //    if (currentOrders.Contains(orderToRemove))
-    //    {
-    //        //remove from the list
-    //        currentOrders.Remove(orderToRemove);
-    //    }
-
-    //    //get the customer object this order belongs to, and tell it to go to cashier
-    //    orderToRemove.gameObject.GetComponent<CustomerAi>().SetPaying();
-    //}
 
     //complete a order, taking a itemtype of itemstatecontrol
     public void CompleteOrder(ItemStateControl orderToRemove)
