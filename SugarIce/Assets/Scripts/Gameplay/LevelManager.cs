@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour {
 
@@ -36,7 +37,7 @@ public class LevelManager : MonoBehaviour {
         layoutManager = GetComponent<LevelLayoutManager>();
 
         levelTimeStart = Time.time;
-
+        StartLevel();
         //once ready, spawn first customer
         SpawnNewCustomer();
 	}
@@ -118,6 +119,7 @@ public class LevelManager : MonoBehaviour {
             playerArray[i].GetComponent<PlayerStateControl>().isPlaying = false;
         }
         //do game end stuff
+        SceneManager.LoadScene(0);
     }
 
     //game over the level <- called from police when arresting
