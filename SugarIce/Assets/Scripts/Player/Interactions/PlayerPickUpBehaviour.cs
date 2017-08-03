@@ -21,8 +21,16 @@ public class PlayerPickUpBehaviour : MonoBehaviour {
     private GamePadState state;
     private GamePadState prevState;
 
+    //sounds
+    public AudioClip PickUp;
+    public AudioClip PutDown;
+
+    private AudioSource source;
+
     // Use this for initialization
     void Start () {
+
+        source = GetComponent<AudioSource>();
 
         if (GetComponent<PlayerStateControl>())
         {
@@ -97,6 +105,7 @@ public class PlayerPickUpBehaviour : MonoBehaviour {
                         playerState.isHolding = false;
 
                         animator.SetBool("Holding", false);
+                        source.PlayOneShot(PutDown);
                     }
                 }
                 //else, drop the item
@@ -107,6 +116,7 @@ public class PlayerPickUpBehaviour : MonoBehaviour {
                     playerState.isHolding = false;
 
                     animator.SetBool("Holding", false);
+                    source.PlayOneShot(PutDown);
                 }
             }
             //else try to pick up an object
@@ -124,6 +134,7 @@ public class PlayerPickUpBehaviour : MonoBehaviour {
 
                         animator.SetBool("Holding", true);
                         animator.SetTrigger("Pickup");
+                        source.PlayOneShot(PickUp);
                     }
                     //if table does not have item, try to pick up off floor
                     else if (interactionZone.GetClosestInteractable())
@@ -133,6 +144,7 @@ public class PlayerPickUpBehaviour : MonoBehaviour {
 
                         animator.SetBool("Holding", true);
                         animator.SetTrigger("Pickup");
+                        source.PlayOneShot(PickUp);
                     }
                 }
                 //check for an object to pick up, if null, do nothing
@@ -143,6 +155,7 @@ public class PlayerPickUpBehaviour : MonoBehaviour {
 
                     animator.SetBool("Holding", true);
                     animator.SetTrigger("Pickup");
+                    source.PlayOneShot(PickUp);
                 }
             }
         }
@@ -156,6 +169,7 @@ public class PlayerPickUpBehaviour : MonoBehaviour {
             heldObject = null;
             GetComponent<PlayerStateControl>().isHolding = false;
             animator.SetBool("Holding", false);
+            source.PlayOneShot(PutDown);
             return true;
         }
         return false;

@@ -53,11 +53,22 @@ public class Tools : MonoBehaviour
 
     private GameObject ItemRef = null;
     public bool ToolActive = false;
+    
+    //sounds
+    public AudioClip Fire;
+    public AudioClip Timer;
+    public AudioClip Bubbling;
+    public AudioClip BeakerExplosion;
+    public AudioClip Explosion;
+
+    private AudioSource source;
 
 
     // Use this for initialization
     void Start()
     {
+        source = GetComponent<AudioSource>();
+
         if (Tool == ToolTypes.DRUGS || Tool == ToolTypes.DONUTS)
         {
             GetComponent<TableStateControl>().hasItem = true;
@@ -100,6 +111,7 @@ public class Tools : MonoBehaviour
         if (Time.time - CookingStartTime < DoneTime)
         {
             ProgressBar.transform.localScale = new Vector3(ProgressBar.transform.localScale.x, 2.2f * ((Time.time - CookingStartTime) / DoneTime), ProgressBar.transform.localScale.z);
+
         }
         if (Time.time - CookingStartTime > DoneTime && Time.time - CookingStartTime < BurntTime)
         {
@@ -125,6 +137,7 @@ public class Tools : MonoBehaviour
         if (Time.time - CookingStartTime < DoneTime)
         {
             ProgressBar.transform.localScale = new Vector3(ProgressBar.transform.localScale.x, 2.2f * ((Time.time - CookingStartTime) / DoneTime), ProgressBar.transform.localScale.z);
+
         }
         if (Time.time - CookingStartTime > DoneTime && Time.time - CookingStartTime < BurntTime)
         {
@@ -141,6 +154,7 @@ public class Tools : MonoBehaviour
             if (!VFXFinished.isPlaying)
             {
                 VFXFinished.Play();
+                source.PlayOneShot(BeakerExplosion);
             }
             Destroy(ItemRef);
             ItemRef = null;
@@ -177,9 +191,11 @@ public class Tools : MonoBehaviour
             else
             {
                 print("Explosion");
+                
                 if (!VFXFinished.isPlaying)
                 {
                     VFXFinished.Play();
+                    source.PlayOneShot(Explosion);
                 }
                 ResetTube();
             }
@@ -200,9 +216,11 @@ public class Tools : MonoBehaviour
             else
             {
                 print("Explosion");
+                
                 if (!VFXFinished.isPlaying)
                 {
                     VFXFinished.Play();
+                    source.PlayOneShot(Explosion);
                 }
                 ResetTube();
             }
@@ -237,6 +255,7 @@ public class Tools : MonoBehaviour
                     if (VFXFinished.isPlaying)
                     {
                         VFXFinished.Stop();
+                        source.Stop();
                     }
                     Destroy(ItemRef);
                     ItemRef = null;
@@ -330,6 +349,7 @@ public class Tools : MonoBehaviour
                     if(!VFXInProgress.isPlaying)
                     {
                         VFXInProgress.Play();
+                        source.PlayOneShot(Timer);
                     }
                     result = true;
                 }
@@ -351,6 +371,7 @@ public class Tools : MonoBehaviour
                     if (!VFXInProgress.isPlaying)
                     {
                         VFXInProgress.Play();
+                        source.PlayOneShot(Bubbling);
                     }
                     //Start Tool Progress
                     ToolActive = true;
