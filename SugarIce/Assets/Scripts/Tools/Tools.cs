@@ -386,6 +386,7 @@ public class Tools : MonoBehaviour
                     case ItemStateControl.ItemTypes.DONUTCOOKED:
                         _Item.GetComponent<MeshFilter>().mesh = BagMesh;
                         _Item.GetComponent<MeshRenderer>().material = BagMaterial;
+                        _Item.GetComponent<ItemStateControl>().Bagged = true;
                         result = false;
                         break;
                     default: break;
