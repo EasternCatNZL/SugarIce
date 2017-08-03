@@ -45,6 +45,10 @@ public class LevelManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         SpawnNewCustomer();
+        if (Time.time >= levelTimeStart + levelTimeLimit)
+        {
+            EndLevel();
+        }
 	}
 
     //spawn a new customer if interval has passed
