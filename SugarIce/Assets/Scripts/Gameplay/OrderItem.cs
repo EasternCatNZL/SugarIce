@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class OrderItem : MonoBehaviour {
 
-
-
     [Header("Time vars")]
     public float orderDuration = 60.0f; //duration of the order
     [HideInInspector]
