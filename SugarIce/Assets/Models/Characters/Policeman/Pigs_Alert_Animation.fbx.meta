@@ -1,0 +1,124 @@
+fileFormatVersion: 2
+guid: 7171167c9b8701340a64719d89515ff3
+timeCreated: 1501716536
+licenseType: Free
+ModelImporter:
+  serializedVersion: 21
+  fileIDToRecycleName:
+    100000: Pig_Rig:Pig_J_Bottom
+    100002: Pig_Rig:Pig_J_Chest
+    100004: Pig_Rig:Pig_J_Clavical
+    100006: Pig_Rig:Pig_J_Finger_1
+    100008: Pig_Rig:Pig_J_Finger_1 1
+    100010: Pig_Rig:Pig_J_Finger_2
+    100012: Pig_Rig:Pig_J_Finger_2 1
+    100014: Pig_Rig:Pig_J_Head
+    100016: Pig_Rig:Pig_J_Head_Top
+    100018: Pig_Rig:Pig_J_Left_Wrist
+    100020: Pig_Rig:Pig_J_Neck
+    100022: Pig_Rig:Pig_J_Right_Wrist
+    100024: Pig_Rig:Pig_J_Root
+    100026: Pig_Rig:Pig_J_Thumb_1
+    100028: Pig_Rig:Pig_J_Thumb_1 1
+    100030: Pig_Rig:Pig_J_Thumb_2
+    100032: Pig_Rig:Pig_J_Thumb_2 1
+    100034: Pig_Rig:Pig_Model
+    100036: //RootNode
+    400000: Pig_Rig:Pig_J_Bottom
+    400002: Pig_Rig:Pig_J_Chest
+    400004: Pig_Rig:Pig_J_Clavical
+    400006: Pig_Rig:Pig_J_Finger_1
+    400008: Pig_Rig:Pig_J_Finger_1 1
+    400010: Pig_Rig:Pig_J_Finger_2
+    400012: Pig_Rig:Pig_J_Finger_2 1
+    400014: Pig_Rig:Pig_J_Head
+    400016: Pig_Rig:Pig_J_Head_Top
+    400018: Pig_Rig:Pig_J_Left_Wrist
+    400020: Pig_Rig:Pig_J_Neck
+    400022: Pig_Rig:Pig_J_Right_Wrist
+    400024: Pig_Rig:Pig_J_Root
+    400026: Pig_Rig:Pig_J_Thumb_1
+    400028: Pig_Rig:Pig_J_Thumb_1 1
+    400030: Pig_Rig:Pig_J_Thumb_2
+    400032: Pig_Rig:Pig_J_Thumb_2 1
+    400034: Pig_Rig:Pig_Model
+    400036: //RootNode
+    4300000: Pig_Rig:Pig_Model
+    7400000: Take 001
+    9500000: //RootNode
+    13700000: Pig_Rig:Pig_Model
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

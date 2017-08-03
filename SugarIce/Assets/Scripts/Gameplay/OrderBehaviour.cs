@@ -105,7 +105,7 @@ public class OrderBehaviour : MonoBehaviour {
                 other.gameObject.GetComponent<CustomerAi>().ArriveAtShop();
                 print("Added customer");
             }
-            else if (other.gameObject.GetComponent<PoliceAi>())
+            if (other.gameObject.GetComponent<PoliceAi>())
             {
                 other.gameObject.GetComponent<PoliceAi>().ArriveAtShop();
                 print ("Added police");
@@ -138,7 +138,7 @@ public class OrderBehaviour : MonoBehaviour {
             {
                 currentCustomers[i].GetComponent<CustomerAi>().SetQueuePos(layoutManager.queuePos[i]);
             }
-            else if (currentCustomers[i].GetComponent<PoliceAi>())
+            if (currentCustomers[i].GetComponent<PoliceAi>())
             {
                 currentCustomers[i].GetComponent<PoliceAi>().SetQueuePos(layoutManager.queuePos[i]);
             }

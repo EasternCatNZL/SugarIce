@@ -9,11 +9,15 @@ public class LevelManager : MonoBehaviour {
     private LevelLayoutManager layoutManager; //ref to layout manager
 
     [Header("Reference Storage")]
-    public GameObject[] playerArray = new GameObject[0]; //array of players, to send commands to
     public GameObject[] customerArray = new GameObject[0]; //array of customers that can spawn
+    public GameObject policeCar; //police car and plane object
+    //public GameObject policeman; //police object
+
+    private GameObject[] playerArray = new GameObject[0]; //array of players, to send commands to
 
     [Header("Spawn Controls")]
     public int maxCustomers = 5; //maximum number of customers allowed in the world at a time
+    public float customerWeight = 7.0f; //chance of customer over police, out of 10
 
     private int currentNumCustomers = 0; //the current number of customers
 
@@ -49,13 +53,27 @@ public class LevelManager : MonoBehaviour {
         if (Time.time > lastCustomerSpawnTime + newCustomerInterval)
         {
             //check if current customers does not exceed max number
-            if (currentNumCustomers <= maxCustomers)
+            if (currentNumCustomers < maxCustomers)
             {
-                //get random seed of customer and spawn location
-                int randSpawn = Random.Range(0, layoutManager.exitPos.Length);
-                int randCustomer = Random.Range(0, customerArray.Length);
-                //spawn the customer
-                Instantiate(customerArray[randCustomer], layoutManager.exitPos[randSpawn].transform.position, layoutManager.exitPos[randSpawn].rotation);
+                float customerChance = Random.Range(0, 10);
+                //if weighted choice is customer
+                if (customerChance <= customerWeight)
+                {
+                    int randCustomer = Random.Range(0, customerArray.Length);
+                    //get random seed of customer and spawn location
+                    int randSpawn = Random.Range(0, layoutManager.exitPos.Length);
+                    //spawn the customer
+                    Instantiate(customerArray[randCustomer], layoutManager.exitPos[randSpawn].transform.position, layoutManager.exitPos[randSpawn].rotation);
+                }
+                //else weighted towards police
+                else
+                {
+                    int randPoliceSpawn = Random.Range(0, layoutManager.policeCarEntryPos.Length);
+                    GameObject policeCarClone = policeCar;
+                    policeCarClone.GetComponent<PoliceCarBehaviour>().exitPos = layoutManager.policeCarExitPos[randPoliceSpawn];
+                    //spawn the car
+                    Instantiate(policeCarClone, layoutManager.policeCarEntryPos[randPoliceSpawn].position, layoutManager.policeCarEntryPos[randPoliceSpawn].rotation);
+                }
                 //set last spawn time to now
                 lastCustomerSpawnTime = Time.time;
                 //increase the current customer count
