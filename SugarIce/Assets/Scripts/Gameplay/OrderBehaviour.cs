@@ -51,11 +51,12 @@ public class OrderBehaviour : MonoBehaviour {
     //complete a order, taking a itemtype of itemstatecontrol
     public void CompleteOrder(ItemStateControl orderToRemove)
     {
+        ItemStateControl.ItemTypes temp = orderToRemove.GetComponent<ItemStateControl>().Type;
         //loop through list
         for (int i = 0; i < currentOrders.Count; i++)
         {
             //if the current orders item type matches the one given
-            if (currentOrders[i].order == orderToRemove.Type)
+            if (currentOrders[i].order == temp)
             {
                 //have the customer related to this order leave
                 currentOrders[i].gameObject.GetComponent<CustomerAi>().SetPaying();
@@ -105,7 +106,7 @@ public class OrderBehaviour : MonoBehaviour {
                 other.gameObject.GetComponent<CustomerAi>().ArriveAtShop();
                 print("Added customer");
             }
-            else if (other.gameObject.GetComponent<PoliceAi>())
+            if (other.gameObject.GetComponent<PoliceAi>())
             {
                 other.gameObject.GetComponent<PoliceAi>().ArriveAtShop();
                 print ("Added police");
@@ -138,7 +139,7 @@ public class OrderBehaviour : MonoBehaviour {
             {
                 currentCustomers[i].GetComponent<CustomerAi>().SetQueuePos(layoutManager.queuePos[i]);
             }
-            else if (currentCustomers[i].GetComponent<PoliceAi>())
+            if (currentCustomers[i].GetComponent<PoliceAi>())
             {
                 currentCustomers[i].GetComponent<PoliceAi>().SetQueuePos(layoutManager.queuePos[i]);
             }
