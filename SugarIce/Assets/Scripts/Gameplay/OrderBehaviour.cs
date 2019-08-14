@@ -6,7 +6,7 @@ public class OrderBehaviour : MonoBehaviour {
 
     [Header("Orders for level")]
     public List<OrderItem> currentOrders = new List<OrderItem>();
-    public ItemStateControl.ItemTypes[] possibleProducts = new ItemStateControl.ItemTypes[0];
+    public Product.Products[] possibleProducts = new Product.Products[0];
     public Sprite[] productSprites = new Sprite[0];
 
     //list of current npc game objects
