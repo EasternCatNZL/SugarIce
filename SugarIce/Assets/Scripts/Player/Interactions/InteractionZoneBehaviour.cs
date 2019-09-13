@@ -5,8 +5,8 @@ using UnityEngine;
 public class InteractionZoneBehaviour : MonoBehaviour {
 
     //list of colliders, needed for interaction
-    public List<Collider> collidedObjects = new List<Collider>(); //for interactables
-    public List<Collider> tableObjects = new List<Collider>(); //for bench/tables
+    public List<GameObject> collidedObjects = new List<GameObject>(); //for interactables
+    //public List<Collider> tableObjects = new List<Collider>(); //for bench/tables
 
     //parent ref
     [Header("Parent object")]
@@ -42,44 +42,22 @@ public class InteractionZoneBehaviour : MonoBehaviour {
         GetFrontOfPlayer();
 
         //compare distance between all interactable objects in list to current shortest distance
-        foreach (Collider col in collidedObjects)
+        foreach (GameObject interactable in collidedObjects)
         {
             //if distance is shorter, set closest object to this object
             //set shortest distance to this distance
-            if (Vector3.Distance(col.gameObject.transform.position, frontOfPlayer) < shortestDistance)
+            if (Vector3.Distance(interactable.transform.position, frontOfPlayer) < shortestDistance)
             {
-                closestObject = col.gameObject;
-                shortestDistance = Vector3.Distance(col.gameObject.transform.position, frontOfPlayer);
+                //Check if the object is interactable
+                if (interactable.GetComponent<Interactable>())
+                {
+                    closestObject = interactable.gameObject;
+                    shortestDistance = Vector3.Distance(interactable.transform.position, frontOfPlayer);
+                }
             }
         }
 
         return closestObject;
-    }
-
-    //return the table closest to player, only call if collided tables is not empty
-    //for safety, when function called, always check back for null object return
-    public GameObject GetClosestTable()
-    {
-        //gameobject ref to return
-        GameObject closetsTable = null;
-        //initialize a base distance to compare against
-        float shortestDistance = 50.0f;
-
-        GetFrontOfPlayer();
-
-        //compare distance between all interactable objects in list to current shortest distance
-        foreach (Collider col in tableObjects)
-        {
-            //if distance is shorter, set closest object to this object
-            //set shortest distance to this distance
-            if (Vector3.Distance(col.gameObject.transform.position, frontOfPlayer) < shortestDistance)
-            {
-                closetsTable = col.gameObject;
-                shortestDistance = Vector3.Distance(col.gameObject.transform.position, frontOfPlayer);
-            }
-        }
-
-        return closetsTable;
     }
 
     //get the transform of position between player and interaction zone and label as front of player
@@ -91,21 +69,17 @@ public class InteractionZoneBehaviour : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        //if object not in list
-        if (!collidedObjects.Contains(other))
+        //check only if parent
+        if (!other.gameObject.transform.parent)
         {
-            //if object is an interactable
+            //if object is interactable
             if (other.CompareTag(interactableTag))
             {
-                //add to list
-                collidedObjects.Add(other);
-                //DEBUG
-                //print("Found " + other.gameObject.ToString());
-            }
-            if (other.CompareTag(tableTag))
-            {
-                //add to table list
-                tableObjects.Add(other);
+                //if object not already in list
+                if (!collidedObjects.Contains(other.gameObject))
+                {
+                    collidedObjects.Add(other.gameObject);
+                }
             }
         }
     }
@@ -113,16 +87,10 @@ public class InteractionZoneBehaviour : MonoBehaviour {
     private void OnTriggerExit(Collider other)
     {
         //if object is in list
-        if (collidedObjects.Contains(other))
+        if (collidedObjects.Contains(other.gameObject))
         {
             //remove from list
-            collidedObjects.Remove(other);
-        }
-        //if object is in table list
-        if (tableObjects.Contains(other))
-        {
-            //remove from the list
-            tableObjects.Remove(other);
+            collidedObjects.Remove(other.gameObject);
         }
     }
 }

@@ -128,10 +128,12 @@ public class PlayerControl : MonoBehaviour
     }
 
     //called when player uses interact button 
-    void PickUp()
+    void PickUpInteraction()
     {
         //Calls for interaction zone to attempt to find an object to attach itself to player character
-        heldObject = interactionZone.GetClosestInteractable();
+        GameObject closestObject = interactionZone.GetClosestInteractable();
+        //Pick up from closest interactable -> table or loose object
+        closestObject.GetComponent<Interactable>().PickUpFrom();
     }
 
     //called when player uses interact button while holding onto an object
