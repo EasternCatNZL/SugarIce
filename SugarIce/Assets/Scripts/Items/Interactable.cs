@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
+
 public class Interactable : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -16,7 +18,7 @@ public class Interactable : MonoBehaviour
         
     }
 
-    public virtual void PickUpFrom()
+    public virtual void PickUpFrom(PlayerControl player)
     {
 
     }

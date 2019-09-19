@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(InteractionZoneBehaviour))]
+
 public class PlayerControl : MonoBehaviour
 {
     [Header("Movement Settings")]
@@ -133,7 +135,7 @@ public class PlayerControl : MonoBehaviour
         //Calls for interaction zone to attempt to find an object to attach itself to player character
         GameObject closestObject = interactionZone.GetClosestInteractable();
         //Pick up from closest interactable -> table or loose object
-        closestObject.GetComponent<Interactable>().PickUpFrom();
+        closestObject.GetComponent<Interactable>().PickUpFrom(this);
     }
 
     //called when player uses interact button while holding onto an object
@@ -154,5 +156,12 @@ public class PlayerControl : MonoBehaviour
     {
         heldObject = item;
         //play animation of picking up object
+    }
+
+    //Attach player to a active equipment
+    void WorkInteraction()
+    {
+        //get the closest active equipment table
+
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Table : MonoBehaviour
+public class Table : Interactable
 {
     [Header("Object refs")]
     public GameObject itemOnTable;
@@ -42,11 +42,13 @@ public class Table : MonoBehaviour
     }
 
     //Logic when trying to pick up from
-    public virtual void PickUpFrom()
+    public override void PickUpFrom(PlayerControl player)
     {
         //Set physics on for object
         itemOnTable.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+        //give object to player
+        player.GetItem(itemOnTable);
         //remove item from table
-        itemOnTable = null;
+        itemOnTable = null;        
     }
 }

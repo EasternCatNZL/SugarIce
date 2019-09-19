@@ -19,7 +19,7 @@ public class Equipment : Table
     public override void ObjectPlacedReaction()
     {
         base.ObjectPlacedReaction();
-        //Hide the model of the object
+        //Hide the object
     }
 
     public override void InteractWith()
@@ -35,10 +35,10 @@ public class Equipment : Table
 
     }
 
-    public override void PickUpFrom()
+    public override void PickUpFrom(PlayerControl player)
     {
-        //show model of the object
+        //show  the object
 
-        base.PickUpFrom();
+        base.PickUpFrom(player);
     }
 }
