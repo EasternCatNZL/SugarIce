@@ -4,6 +4,18 @@ using UnityEngine;
 
 public class Equipment : Table
 {
+    public enum ProcessMethod
+    {
+        Heat,
+        Mix,
+        Break,
+        Cut,
+        Chill
+    }
+
+    [Header("Processing method")]
+    public ProcessMethod myProcessMethod = ProcessMethod.Heat;
+
     // Start is called before the first frame update
     void Start()
     {

@@ -24,6 +24,7 @@ public class Table : Interactable
     public virtual void ObjectPlacedReaction()
     {
         PositionOnTalbe();
+        itemOnTable.GetComponent<Pickupable>().attachedTable = this;
     }
 
     //Position the object on the table
@@ -48,6 +49,7 @@ public class Table : Interactable
         itemOnTable.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
         //give object to player
         player.GetItem(itemOnTable);
+        itemOnTable.GetComponent<Pickupable>().attachedTable = null;
         //remove item from table
         itemOnTable = null;        
     }
