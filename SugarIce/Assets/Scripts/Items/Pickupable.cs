@@ -54,11 +54,12 @@ public class Pickupable : Interactable
         //if processed amount has reached required threshold, complete it
         if (processedAmount >= amountToProcess)
         {
-            ChangedToProcessedForm();
+            ChangedToProcessedForm(processMethod);
         }
     }
 
-    protected void ChangedToProcessedForm()
+    //change the object after equipment work has occured that would cause it to change form
+    protected virtual void ChangedToProcessedForm(Equipment.ProcessMethod processMethod)
     {
 
     }

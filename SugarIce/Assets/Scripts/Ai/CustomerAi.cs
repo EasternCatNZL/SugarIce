@@ -48,9 +48,9 @@ public class CustomerAi : MonoBehaviour {
         myOrder = GetComponent<OrderItem>();
         
 
-        int rand = Random.Range(0, orderManager.possibleProducts.Length);
-        myOrder.order = orderManager.possibleProducts[rand];
-        orderSprite.sprite = orderManager.productSprites[rand];
+        //int rand = Random.Range(0, orderManager.possibleProducts.Length);
+        //myOrder.order = orderManager.possibleProducts[rand];
+        //orderSprite.sprite = orderManager.productSprites[rand];
         orderSprite.color = new Color(1, 1, 1, 0);
 
         layoutManager = GameObject.Find("LevelManager").GetComponent<LevelLayoutManager>();
@@ -61,8 +61,8 @@ public class CustomerAi : MonoBehaviour {
         //move to shop center after spawning in
         navMashAgent.SetDestination(layoutManager.shopFrontCenter.position);
         //set the exit that this agent will leave from
-        rand = Random.Range(0, layoutManager.exitPos.Length);
-        myExit = layoutManager.exitPos[rand];
+        //rand = Random.Range(0, layoutManager.exitPos.Length);
+        //myExit = layoutManager.exitPos[rand];
 
         levelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
 	}

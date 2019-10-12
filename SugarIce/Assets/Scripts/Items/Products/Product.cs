@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Product : Interactable
+public class Product : Pickupable
 {
-    public enum Products
+    public enum ProductName
     {
-
+        Donut,
+        Unknown
     }
 
-    public Products product;
+    public ProductName prodName = ProductName.Unknown;
 
     [Header("Order Image")]
-    public Sprite productImage; //graphical representation of order
+    public SpriteRenderer productImage = null; //graphical representation of order
 
     // Start is called before the first frame update
     void Start()

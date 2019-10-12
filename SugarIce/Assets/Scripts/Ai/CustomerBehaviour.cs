@@ -50,7 +50,7 @@ public class Ai : MonoBehaviour
     {
         //set up order item for this customer using this levels possible orders
         OrderBehaviour orderBehaviour = GameObject.Find(levelManagerTag).GetComponent<OrderBehaviour>();
-        myOrder.product = orderBehaviour.possibleProducts[Random.Range(0, orderBehaviour.productSprites.Length)];
+        //myOrder.product = orderBehaviour.possibleProducts[Random.Range(0, orderBehaviour.productSprites.Length)];
         
     }
 }

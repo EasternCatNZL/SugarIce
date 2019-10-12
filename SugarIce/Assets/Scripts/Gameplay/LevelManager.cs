@@ -134,7 +134,7 @@ public class LevelManager : MonoBehaviour {
         //set the players to panic
         for (int i = 0; i < playerArray.Length; i++)
         {
-            playerArray[i].GetComponent<PlayerPickUpBehaviour>().Panic();
+            //playerArray[i].GetComponent<PlayerPickUpBehaviour>().Panic();
         }
 
         //do game over stuff

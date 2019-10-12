@@ -86,7 +86,7 @@ public class PlayerControl : MonoBehaviour
     void RotatePlayer()
     {
         //Get direction based on input
-        Vector3 direction = new Vector3(Luminosity.IO.InputManager.GetAxisRaw(horizontalAxis), 0.0f, Luminosity.IO.InputManager.GetAxisRaw(verticalAxis));
+        //Vector3 direction = new Vector3(Luminosity.IO.InputManager.GetAxisRaw(horizontalAxis), 0.0f, Luminosity.IO.InputManager.GetAxisRaw(verticalAxis));
         float angle = Mathf.Atan2(Luminosity.IO.InputManager.GetAxisRaw(horizontalAxis), Luminosity.IO.InputManager.GetAxisRaw(verticalAxis));
         transform.rotation = Quaternion.Euler(0.0f, angle, 0.0f);
     }
