@@ -7,6 +7,9 @@ public class Order : MonoBehaviour
     [Header("Order Details")]
     public Product orderProduct;
 
+    private float orderDuration = 0.0f;
+    private float orderStartTime = 0.0f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -17,5 +20,12 @@ public class Order : MonoBehaviour
     void Update()
     {
         
+    }
+
+    //set timer values for order
+    public void InitOrder(float orderDur)
+    {
+        orderDuration = orderDur;
+        orderStartTime = Time.time;
     }
 }
