@@ -19,9 +19,9 @@ public class GameLevelSceneHandler : MonoBehaviour
     [Tooltip("Slight delay when orders already full and trying to create new order")]
     public float ordersFullDelay = 1.5f;
     [Tooltip("List of possible products for this level")]
-    public List<Product> possibleOrdersList = new List<Product>();
+    public List<Order> possibleOrdersList = new List<Order>();
 
-    private List<Product> currentActiveOrders = new List<Product>(); //orders currently active in level
+    private List<Order> currentActiveOrders = new List<Order>(); //orders currently active in level
 
     //private int currentNumOrders = 0; //the current number of orders
     private float timeToNextOrder = 0.0f; //the time until next order
@@ -34,7 +34,9 @@ public class GameLevelSceneHandler : MonoBehaviour
     private float timeLevelStarted = 0.0f;
     private float levelCurrentTimeLeft = 0.0f;
 
-    //Scoring
+    [Header("Scoring")]
+    public float levelScoreMultiplier = 0.5f;
+
     private float score = 0.0f;
 
     [Header("Tags")]
@@ -57,7 +59,17 @@ public class GameLevelSceneHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        //Do game things while level is active
+        if (isLevelActive)
+        {
+            //update timed vars
+            TickTimer();
+            if(Time.time >= timeLastOrder + timeToNextOrder)
+            {
+                CreateOrder();
+            }
+
+        }
     }
 
     //Logic ran when level begins <-prep before giving players control
@@ -82,12 +94,12 @@ public class GameLevelSceneHandler : MonoBehaviour
         {
             //create random order based on possible products
             int randChoice = Random.Range(0, possibleOrdersList.Count);
-            GameObject productClone = Instantiate(possibleOrdersList[randChoice].gameObject, transform.position, Quaternion.identity);
+            GameObject orderClone = Instantiate(possibleOrdersList[randChoice].gameObject, transform.position, Quaternion.identity);
             //init order with this levels time limits
-            productClone.GetComponent
+            orderClone.GetComponent<Order>().InitOrder(orderDuration);
 
             //add this order to active order
-            currentActiveOrders.Add(productClone.GetComponent<Product>());
+            currentActiveOrders.Add(orderClone.GetComponent<Order>());
 
             //set time of last order to now
             timeLastOrder = Time.time;
@@ -95,7 +107,7 @@ public class GameLevelSceneHandler : MonoBehaviour
             timeToNextOrder = SetNextOrderTime();
 
             //Update the ui
-            levelUi.CreateOrderInUI(currentActiveOrders.Count - 1, productClone.GetComponent<Product>());
+            levelUi.CreateOrderInUI(currentActiveOrders.Count - 1, orderClone.GetComponent<Product>());
         }
         //else, alter timer such that there is a slight gap between full order opening gap and filling again
         else
@@ -107,17 +119,36 @@ public class GameLevelSceneHandler : MonoBehaviour
     //Set next order time <- less active orders = sooner next order
     private float SetNextOrderTime()
     {
-        float time = 0.0f;
 
         //get random number between min and max
-        time = Random.Range(minTimeBetweenOrder, maxTimeBetweenOrder);
+        float time = Random.Range(minTimeBetweenOrder, maxTimeBetweenOrder);
         //alter by number of orders currently active against the max that can be actinve
-        time = time / (maxNumOrders - currentActiveOrders.Count);
+        time /= (maxNumOrders - currentActiveOrders.Count);
 
         return time;
     }
 
     //Complete order by removing it from the list
+    private void CompleteOrder(Order completedOrder)
+    {
+        //check if this product exists within the requested orders
+        Order foundOrder = null;
+        foreach (Order i in currentActiveOrders){
+            //if found, ref the order and then break out of loop
+            if(completedOrder.orderProduct.productName == i.orderProduct.productName)
+            {
+                foundOrder = i;
+                break;
+            }
+        }
+        //if order was found, remove it from play and add score
+        if (foundOrder)
+        {
+            currentActiveOrders.Remove(foundOrder);
+            score = foundOrder.ScoreThisOrder(levelScoreMultiplier);
+            Destroy(foundOrder.gameObject);
+        }
+    }
 
     //Initialize the clock
     private void InitClock()
@@ -125,6 +156,7 @@ public class GameLevelSceneHandler : MonoBehaviour
         //set timers
         timeLevelStarted = Time.time;
         levelCurrentTimeLeft = levelTimeLimit;
+        PresentTimer();
     }
 
     //Timer ticking logic

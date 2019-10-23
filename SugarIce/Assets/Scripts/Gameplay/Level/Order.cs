@@ -28,4 +28,12 @@ public class Order : MonoBehaviour
         orderDuration = orderDur;
         orderStartTime = Time.time;
     }
+
+    //score this order
+    public float ScoreThisOrder(float multiplier)
+    {
+        float score = ((Time.time + orderDuration) - orderStartTime);
+        score += score * multiplier;
+        return score;
+    }
 }

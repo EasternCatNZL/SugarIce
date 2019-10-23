@@ -10,7 +10,7 @@ public class Product : Pickupable
         Unknown
     }
 
-    public ProductName prodName = ProductName.Unknown;
+    public ProductName productName = ProductName.Unknown;
 
     [Header("Order Image")]
     public SpriteRenderer productImage = null; //graphical representation of order
