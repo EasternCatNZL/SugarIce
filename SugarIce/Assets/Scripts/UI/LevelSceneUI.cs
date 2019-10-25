@@ -54,4 +54,10 @@ public class LevelSceneUI : MonoBehaviour
     {
 
     }
+
+    //set text ui
+    public void ScoreTextUpdate(float scoreVal)
+    {
+        scoreText.text = scoreVal.ToString();
+    }
 }

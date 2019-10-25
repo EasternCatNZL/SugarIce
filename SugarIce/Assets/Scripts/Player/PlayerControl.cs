@@ -34,6 +34,7 @@ public class PlayerControl : MonoBehaviour
     public InteractionZoneBehaviour interactionZone;
 
     private GameObject heldObject;
+    private ActiveEquipment currentWorkStation = null;
 
     public enum PlayerState
     {
@@ -61,8 +62,17 @@ public class PlayerControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        MovePlayer();
-        RotatePlayer();
+        //If not in working state
+        if(playerState != PlayerState.Working)
+        {
+            MovePlayer();
+            RotatePlayer();
+            Interact();
+        }
+        else if (playerState == PlayerState.Working)
+        {
+            Process();
+        }
     }
 
     //Move the player using horizontal and vertical axis input from all sources
@@ -77,6 +87,14 @@ public class PlayerControl : MonoBehaviour
         if (Luminosity.IO.InputManager.GetAxisRaw(verticalAxis) > deadZone)
         {
             newPos += Vector3.forward * movementSpeed * Luminosity.IO.InputManager.GetAxisRaw(verticalAxis);
+        }
+
+        //if player was working at a station, move them off it
+        if(playerState == PlayerState.Working && currentWorkStation)
+        {
+            playerState = PlayerState.Normal;
+            currentWorkStation.DetachWorker();
+            currentWorkStation = null;
         }
 
         transform.position += newPos * movementSpeed * Time.deltaTime;
@@ -99,8 +117,10 @@ public class PlayerControl : MonoBehaviour
             switch (playerState)
             {
                 case PlayerState.Normal:
+                    PickUpInteraction();
                     break;
                 case PlayerState.Holding:
+                    PutDown();
                     break;
                 case PlayerState.Working:
                     break;
@@ -118,10 +138,12 @@ public class PlayerControl : MonoBehaviour
             switch (playerState)
             {
                 case PlayerState.Normal:
+                    AttachToWorkTable();
                     break;
                 case PlayerState.Holding:
                     break;
                 case PlayerState.Working:
+                    WorkInteraction();
                     break;
                 default:
                     break;
@@ -134,8 +156,13 @@ public class PlayerControl : MonoBehaviour
     {
         //Calls for interaction zone to attempt to find an object to attach itself to player character
         GameObject closestObject = interactionZone.GetClosestInteractable();
-        //Pick up from closest interactable -> table or loose object
-        closestObject.GetComponent<Interactable>().PickUpFrom(this);
+        //if found an object
+        if (closestObject)
+        {
+            //Pick up from closest interactable -> table or loose object
+            closestObject.GetComponent<Interactable>().PickUpFrom(this);
+        }
+        
     }
 
     //called when player uses interact button while holding onto an object
@@ -158,10 +185,31 @@ public class PlayerControl : MonoBehaviour
         //play animation of picking up object
     }
 
+    //Attach to equipment table
+    void AttachToWorkTable()
+    {
+        //Call for interaction zone to find the closest workstation
+        GameObject table = interactionZone.GetClosestWorkstation();
+        //if table is found
+        if (table)
+        {
+            table.GetComponent<ActiveEquipment>().AttachWorker(this);
+            playerState = PlayerState.Working;
+        }
+    }
+
     //Attach player to a active equipment
     void WorkInteraction()
     {
-        //get the closest active equipment table
+        //if working at a workstation
+        if(playerState == PlayerState.Working && currentWorkStation && currentWorkStation.GetComponent<ActiveEquipment>())
+        {
+            //if work key is held down, perform work
+            if (Luminosity.IO.InputManager.GetButton(processButton))
+            {
+                currentWorkStation.GetComponent<ActiveEquipment>().Work();
+            }
+        }
 
     }
 }

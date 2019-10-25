@@ -60,6 +60,39 @@ public class InteractionZoneBehaviour : MonoBehaviour {
         return closestObject;
     }
 
+    //Get a workbench
+    public GameObject GetClosestWorkstation()
+    {
+        //gameobject ref to return
+        GameObject closestWorkstation = null;
+        //initialize a base distance to compare against
+        float shortestDistance = 50.0f;
+
+        GetFrontOfPlayer();
+
+        //compare distance between all interactable objects in list to current shortest distance
+        foreach (GameObject workstation in collidedObjects)
+        {
+            //Check that the object is of tupe equipment
+            if (workstation.GetComponent<ActiveEquipment>())
+            {
+                //if distance is shorter, set closest object to this object
+                //set shortest distance to this distance
+                if (Vector3.Distance(workstation.transform.position, frontOfPlayer) < shortestDistance)
+                {
+                    //Check if the object is workstation, and there is noone already working there
+                    if (workstation.GetComponent<ActiveEquipment>() && !workstation.GetComponent<ActiveEquipment>().IsInUse())
+                    {
+                        closestWorkstation = workstation.gameObject;
+                        shortestDistance = Vector3.Distance(workstation.transform.position, frontOfPlayer);
+                    }
+                }
+            }
+        }
+
+        return closestWorkstation;
+    }
+
     //get the transform of position between player and interaction zone and label as front of player
     void GetFrontOfPlayer()
     {

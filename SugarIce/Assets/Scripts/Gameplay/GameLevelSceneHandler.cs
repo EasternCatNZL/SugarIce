@@ -147,6 +147,7 @@ public class GameLevelSceneHandler : MonoBehaviour
             currentActiveOrders.Remove(foundOrder);
             score = foundOrder.ScoreThisOrder(levelScoreMultiplier);
             Destroy(foundOrder.gameObject);
+            UpdateScoreText();
         }
     }
 
@@ -163,11 +164,12 @@ public class GameLevelSceneHandler : MonoBehaviour
     private void TickTimer()
     {
         levelCurrentTimeLeft = levelTimeLimit - (Time.time - timeLevelStarted);
+        //if level time limit reached, do end level things
         if (levelCurrentTimeLeft <= 0)
         {
             isLevelActive = false;
-            //timerText.text = levelFinishMessage;
         }
+        //else, change timer text based on remaining time
         else
         {
             PresentTimer();
@@ -181,5 +183,11 @@ public class GameLevelSceneHandler : MonoBehaviour
         float timeMinusSeconds = levelCurrentTimeLeft - secondsLeft;
         int minutesLeft = (int)(timeMinusSeconds / 60);
         levelUi.TimerTextUpdate(minutesLeft, secondsLeft);
+    }
+
+    //update the score text
+    private void UpdateScoreText()
+    {
+        levelUi.ScoreTextUpdate(score);
     }
 }

@@ -42,7 +42,7 @@ public class Equipment : Table
         }        
     }
 
-    protected virtual void Work()
+    public virtual void Work()
     {
 
     }

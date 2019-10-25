@@ -19,7 +19,7 @@ public class Cauldron : ActiveEquipment
         
     }
 
-    protected override void Work()
+    public override void Work()
     {
         //base.Work();
 
