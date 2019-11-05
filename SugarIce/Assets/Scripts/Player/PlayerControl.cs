@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(InteractionZoneBehaviour))]
-
 public class PlayerControl : MonoBehaviour
 {
     [Header("Movement Settings")]

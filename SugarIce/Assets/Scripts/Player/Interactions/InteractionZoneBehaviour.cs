@@ -15,7 +15,6 @@ public class InteractionZoneBehaviour : MonoBehaviour {
     //tags
     [Header("Tags")]
     public string interactableTag;
-    public string tableTag; 
 
     //transforms
     Vector3 frontOfPlayer;

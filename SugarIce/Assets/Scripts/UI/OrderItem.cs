@@ -11,7 +11,7 @@ public class OrderItem : MonoBehaviour {
     public float timeStart = 0.0f; //time that order was created
 
     [Header("Order")]
-    public ItemStateControl.ItemTypes order;
+    public Product.ProductName order;
 
     [Header("Order Image")]
     public Sprite orderImage; //graphical representation of order
