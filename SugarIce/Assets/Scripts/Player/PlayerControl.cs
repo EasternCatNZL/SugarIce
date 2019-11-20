@@ -16,6 +16,7 @@ public class PlayerControl : MonoBehaviour
 
     [Header("Pickupable handling")]
     public float throwForce = 2.0f;
+    public float dropForce = 1.0f;
 
     [Header("Input")]
     public string horizontalAxis = "Horizontal";
@@ -172,7 +173,9 @@ public class PlayerControl : MonoBehaviour
         Rigidbody heldObjectRigid = heldObject.GetComponent<Rigidbody>();
         heldObjectRigid.AddForce(transform.forward * throwForce, ForceMode.Impulse);
         //change state of object to thrown
-
+        //ensure current holder cannot immediatly catch again
+        heldObject.GetComponent<Pickupable>().isThrown = true;
+        heldObject.GetComponent<Pickupable>().lastAttachedObject = this.gameObject;
         heldObject = null;
     }
 
@@ -209,5 +212,49 @@ public class PlayerControl : MonoBehaviour
             }
         }
 
+    }
+
+    //Detach from table
+    private void DetachFromTable()
+    {
+        currentWorkStation.DetachWorker();
+        currentWorkStation = null;
+    }
+
+    //Drop item when hit by another
+    private void DropItem()
+    {
+        //launch the object with given force, and set state to thrown
+        Rigidbody heldObjectRigid = heldObject.GetComponent<Rigidbody>();
+        heldObjectRigid.AddForce(transform.up * dropForce, ForceMode.Impulse);
+        //change state of object to thrown
+        heldObject.GetComponent<Pickupable>().lastAttachedObject = this.gameObject;
+
+        heldObject = null;
+    }
+
+    //Reaction call when thrown object makes contact
+    public void TryCatchItemInAir(GameObject item)
+    {
+        //Item made contact with player, switch off thrown
+        item.GetComponent<Pickupable>().isThrown = false;
+        //Check through states that the player could be to determine reaction
+        //If working <- presume not holding anything
+        if(playerState == PlayerState.Working)
+        {
+            DetachFromTable();
+            //Item contact logic
+            item.GetComponent<Pickupable>().NoCatchImpact();
+        }
+        else if(playerState == PlayerState.Holding)
+        {
+            //Item contact logic
+            item.GetComponent<Pickupable>().NoCatchImpact();
+        }
+        else if(playerState == PlayerState.Normal)
+        {
+            //Catch the item
+            item.GetComponent<Pickupable>().PickUpFrom(this);
+        }
     }
 }

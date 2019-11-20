@@ -7,11 +7,15 @@ public class Equipment : Table
     public enum ProcessMethod
     {
         Heat,
+        Bake,
         Mix,
         Break,
         Cut,
         Chill
     }
+
+    [Header("Processing vars")]
+    public float processRate = 0.2f;
 
     [Header("Processing method")]
     public ProcessMethod myProcessMethod = ProcessMethod.Heat;
@@ -28,9 +32,9 @@ public class Equipment : Table
         
     }
 
-    public override void ObjectPlacedReaction()
+    public override void AttachToTable(GameObject item)
     {
-        base.ObjectPlacedReaction();
+        base.AttachToTable(item);
         //Hide the object
     }
 

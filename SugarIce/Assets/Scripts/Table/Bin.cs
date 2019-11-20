@@ -16,9 +16,9 @@ public class Bin : Table
         
     }
 
-    public override void ObjectPlacedReaction()
+    public override void AttachToTable()
     {
-        base.ObjectPlacedReaction();
+        base.AttachToTable();
         BinItem(itemOnTable);
     }
 

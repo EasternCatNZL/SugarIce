@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class Cauldron : ActiveEquipment
 {
-    [Header("Processing vars")]
-    public float processRate = 0.2f;
-
     // Start is called before the first frame update
     void Start()
     {

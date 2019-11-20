@@ -16,9 +16,9 @@ public class CollectionPoint : Table
         
     }
 
-    public override void ObjectPlacedReaction()
+    public override void AttachToTable()
     {
-        base.ObjectPlacedReaction();
+        base.AttachToTable();
         CompleteOrder();
     }
 

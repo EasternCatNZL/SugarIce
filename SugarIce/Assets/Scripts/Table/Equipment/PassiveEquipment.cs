@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PassiveEquipment : Equipment
 {
+    [Header("Usage vars")]
+    public bool inUse = false;
+
     //control vars
     protected float timeItemWasPlaced = 0.0f;
 
@@ -19,9 +22,9 @@ public class PassiveEquipment : Equipment
         
     }
 
-    public override void ObjectPlacedReaction()
+    public override void AttachToTable(GameObject item)
     {
-        base.ObjectPlacedReaction();
+        base.AttachToTable(item);
         timeItemWasPlaced = Time.time;
     }
 }

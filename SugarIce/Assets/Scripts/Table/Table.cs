@@ -6,7 +6,7 @@ public class Table : Interactable
 {
     [Header("Object refs")]
     public GameObject itemOnTable;
-    public Vector3 posOnTable = Vector3.zero;
+    public Vector3 posOnTable = new Vector3(0.0f, 0.5f, 0.0f);
 
     // Start is called before the first frame update
     void Start()
@@ -21,10 +21,14 @@ public class Table : Interactable
     }
 
     //Logic when item is placed onto this table
-    public virtual void ObjectPlacedReaction()
+    public virtual void AttachToTable(GameObject item)
     {
+        //Turn of thrown check
+        item.GetComponent<Pickupable>().isThrown = false;
+        itemOnTable = item;
         PositionOnTalbe();
         itemOnTable.GetComponent<Pickupable>().attachedTable = this;
+        item.GetComponent<Pickupable>().lastAttachedObject = this.gameObject;
     }
 
     //Position the object on the table

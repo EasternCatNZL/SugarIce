@@ -23,7 +23,7 @@ public class Powder : Pickupable
         //change the item based on own rules
         switch (processMethod)
         {
-            case Equipment.ProcessMethod.Heat:
+            case Equipment.ProcessMethod.Mix:
                 GameObject clone = Instantiate(processedFormList[0], transform.position, transform.rotation);
                 //Set the table's object to new object
                 attachedTable.itemOnTable = clone;
