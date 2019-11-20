@@ -16,9 +16,9 @@ public class CollectionPoint : Table
         
     }
 
-    public override void AttachToTable()
+    public override void AttachToTable(GameObject item)
     {
-        base.AttachToTable();
+        base.AttachToTable(item);
         CompleteOrder();
     }
 
