@@ -7,6 +7,8 @@ public class PlayerControl : MonoBehaviour
     [Header("Movement Settings")]
     [Tooltip("Speed of character movement multiplied against axis")]
     public float movementSpeed = 5.0f;
+    [Tooltip("Turning speed of character")]
+    public float turningSpeed = 10.0f;
     [Tooltip("Speed turn rate of character")]
     [Range(0, 1)]
     public float turnRate = 0.2f;
@@ -65,7 +67,6 @@ public class PlayerControl : MonoBehaviour
         if(playerState != PlayerState.Working)
         {
             MovePlayer();
-            RotatePlayer();
             Interact();
         }
         else if (playerState == PlayerState.Working)
@@ -79,11 +80,13 @@ public class PlayerControl : MonoBehaviour
     {
         Vector3 newPos = Vector3.zero;
         //get input of thw two axis given that the input is larger than deadzone
-        if (Luminosity.IO.InputManager.GetAxisRaw(horizontalAxis) > deadZone)
+        if (Luminosity.IO.InputManager.GetAxisRaw(horizontalAxis) > deadZone
+            || Luminosity.IO.InputManager.GetAxisRaw(horizontalAxis) < -deadZone)
         {
             newPos += Vector3.right * movementSpeed * Luminosity.IO.InputManager.GetAxisRaw(horizontalAxis);
         }
-        if (Luminosity.IO.InputManager.GetAxisRaw(verticalAxis) > deadZone)
+        if (Luminosity.IO.InputManager.GetAxisRaw(verticalAxis) > deadZone
+            || Luminosity.IO.InputManager.GetAxisRaw(verticalAxis) < -deadZone)
         {
             newPos += Vector3.forward * movementSpeed * Luminosity.IO.InputManager.GetAxisRaw(verticalAxis);
         }
@@ -96,16 +99,30 @@ public class PlayerControl : MonoBehaviour
             currentWorkStation = null;
         }
 
+        //Rotate the player using the direction of movement
+        Vector3 direction = newPos - transform.position;
+        RotatePlayer(direction);
+
         transform.position += newPos * movementSpeed * Time.deltaTime;
+        
     }
 
     //Rotate the player in the direction they are moving
-    void RotatePlayer()
+    void RotatePlayer(Vector3 direction)
     {
-        //Get direction based on input
-        //Vector3 direction = new Vector3(Luminosity.IO.InputManager.GetAxisRaw(horizontalAxis), 0.0f, Luminosity.IO.InputManager.GetAxisRaw(verticalAxis));
-        float angle = Mathf.Atan2(Luminosity.IO.InputManager.GetAxisRaw(horizontalAxis), Luminosity.IO.InputManager.GetAxisRaw(verticalAxis));
-        transform.rotation = Quaternion.Euler(0.0f, angle, 0.0f);
+        //Get direction based on input, only do if input recieved
+        if(Luminosity.IO.InputManager.GetAxisRaw(horizontalAxis) > deadZone
+            || Luminosity.IO.InputManager.GetAxisRaw(horizontalAxis) < -deadZone
+            || Luminosity.IO.InputManager.GetAxisRaw(verticalAxis) > deadZone
+            || Luminosity.IO.InputManager.GetAxisRaw(verticalAxis) < -deadZone)
+        {
+            float angle = Mathf.Atan2(Luminosity.IO.InputManager.GetAxisRaw(horizontalAxis), Luminosity.IO.InputManager.GetAxisRaw(verticalAxis));
+            angle *= Mathf.Rad2Deg;
+            Quaternion faceDirection = Quaternion.Euler(0.0f, angle, 0.0f);
+            transform.rotation = Quaternion.Slerp(transform.rotation, faceDirection, turningSpeed * Time.deltaTime);
+        }
+        
+        
     }
 
     //Logic for when the interact button is pressed in different states
