@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Input version="2">
+  <PlayerOneScheme />
+  <PlayerTwoScheme />
+  <PlayerThreeScheme />
+  <PlayerFourScheme />
+  <ControlScheme name="New Scheme" id="2086ed8eb2bf4acd849603728fbbfae8">
+    <Description />
+    <Action name="HorizontalMove">
+      <Description>Horizontal movement axis</Description>
+      <Binding>
+        <Positive>D</Positive>
+        <Negative>A</Negative>
+        <DeadZoneType>CutOff</DeadZoneType>
+        <DeadZone>0</DeadZone>
+        <Gravity>1</Gravity>
+        <Sensitivity>1</Sensitivity>
+        <Scale>1</Scale>
+        <Snap>false</Snap>
+        <Invert>false</Invert>
+        <Type>DigitalAxis</Type>
+        <Axis>0</Axis>
+        <Joystick>0</Joystick>
+        <GamepadButton>LeftStick</GamepadButton>
+        <GamepadAxis>LeftThumbstickX</GamepadAxis>
+        <GamepadIndex>GamepadOne</GamepadIndex>
+      </Binding>
+    </Action>
+    <Action name="VerticalMove">
+      <Description>Vertical Movement Axis</Description>
+      <Binding>
+        <Positive>W</Positive>
+        <Negative>S</Negative>
+        <DeadZoneType>CutOff</DeadZoneType>
+        <DeadZone>0</DeadZone>
+        <Gravity>1</Gravity>
+        <Sensitivity>1</Sensitivity>
+        <Scale>1</Scale>
+        <Snap>false</Snap>
+        <Invert>false</Invert>
+        <Type>DigitalAxis</Type>
+        <Axis>0</Axis>
+        <Joystick>0</Joystick>
+        <GamepadButton>LeftStick</GamepadButton>
+        <GamepadAxis>LeftThumbstickX</GamepadAxis>
+        <GamepadIndex>GamepadOne</GamepadIndex>
+      </Binding>
+    </Action>
+    <Action name="Interact">
+      <Description>Interaction button</Description>
+      <Binding>
+        <Positive>Mouse0</Positive>
+        <Negative>None</Negative>
+        <DeadZoneType>CutOff</DeadZoneType>
+        <DeadZone>0</DeadZone>
+        <Gravity>1</Gravity>
+        <Sensitivity>1</Sensitivity>
+        <Scale>1</Scale>
+        <Snap>false</Snap>
+        <Invert>false</Invert>
+        <Type>DigitalAxis</Type>
+        <Axis>0</Axis>
+        <Joystick>0</Joystick>
+        <GamepadButton>LeftStick</GamepadButton>
+        <GamepadAxis>LeftThumbstickX</GamepadAxis>
+        <GamepadIndex>GamepadOne</GamepadIndex>
+      </Binding>
+    </Action>
+    <Action name="Process">
+      <Description>Processing button</Description>
+      <Binding>
+        <Positive>Mouse1</Positive>
+        <Negative>None</Negative>
+        <DeadZoneType>CutOff</DeadZoneType>
+        <DeadZone>0</DeadZone>
+        <Gravity>1</Gravity>
+        <Sensitivity>1</Sensitivity>
+        <Scale>1</Scale>
+        <Snap>false</Snap>
+        <Invert>false</Invert>
+        <Type>DigitalAxis</Type>
+        <Axis>0</Axis>
+        <Joystick>0</Joystick>
+        <GamepadButton>LeftStick</GamepadButton>
+        <GamepadAxis>LeftThumbstickX</GamepadAxis>
+        <GamepadIndex>GamepadOne</GamepadIndex>
+      </Binding>
+    </Action>
+  </ControlScheme>
+</Input>
