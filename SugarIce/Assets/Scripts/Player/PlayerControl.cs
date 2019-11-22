@@ -17,8 +17,11 @@ public class PlayerControl : MonoBehaviour
     public float deadZone = 0.1f;
 
     [Header("Pickupable handling")]
-    public float throwForce = 2.0f;
-    public float dropForce = 1.0f;
+    public float throwForce = 15.0f;
+    public float upwardTrajectoryAngle = 30.0f;
+    public float dropForce = 10.0f;
+    public GameObject heldObject;
+    public Transform heldObjectPos;
 
     [Header("Input")]
     public string horizontalAxis = "Horizontal";
@@ -34,7 +37,7 @@ public class PlayerControl : MonoBehaviour
     [Tooltip("Game object that handles detection of objects for interaction")]
     public InteractionZoneBehaviour interactionZone;
 
-    private GameObject heldObject;
+   
     private ActiveEquipment currentWorkStation = null;
 
     public enum PlayerState
@@ -63,6 +66,11 @@ public class PlayerControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //If player is holding something
+        if(playerState == PlayerState.Holding && heldObject)
+        {
+            heldObject.transform.position = heldObjectPos.position;
+        }
         //If not in working state
         if(playerState != PlayerState.Working)
         {
@@ -178,28 +186,40 @@ public class PlayerControl : MonoBehaviour
             //Pick up from closest interactable -> table or loose object
             closestObject.GetComponent<Interactable>().PickUpFrom(this);
         }
-        
+        //If successfully got an item, change state
+        if (heldObject)
+        {
+            playerState = PlayerState.Holding;
+        }
     }
 
     //called when player uses interact button while holding onto an object
     void PutDown()
     {
         //play the throw animation
-        animator.SetTrigger(throwAnimation);
+        //animator.SetTrigger(throwAnimation);
         //launch the object with given force, and set state to thrown
         Rigidbody heldObjectRigid = heldObject.GetComponent<Rigidbody>();
-        heldObjectRigid.AddForce(transform.forward * throwForce, ForceMode.Impulse);
+        Vector3 launchDirection = Quaternion.AngleAxis(upwardTrajectoryAngle, transform.right) * transform.forward;
+        print(launchDirection);
+        heldObjectRigid.AddForce(launchDirection * throwForce, ForceMode.Impulse);
         //change state of object to thrown
         //ensure current holder cannot immediatly catch again
         heldObject.GetComponent<Pickupable>().isThrown = true;
         heldObject.GetComponent<Pickupable>().lastAttachedObject = this.gameObject;
+        //Turn collider back on for object
+        heldObject.GetComponent<Collider>().enabled = true;
         heldObject = null;
+        //Set player back to normal state
+        playerState = PlayerState.Normal;
     }
 
     //Get Item <- action when recieving an item from any source
     public void GetItem(GameObject item)
     {
         heldObject = item;
+        //Turn the held objects collider off
+        heldObject.GetComponent<Collider>().enabled = false;
         //play animation of picking up object
     }
 
@@ -236,6 +256,8 @@ public class PlayerControl : MonoBehaviour
     {
         currentWorkStation.DetachWorker();
         currentWorkStation = null;
+        //Change state off working
+        playerState = PlayerState.Normal;
     }
 
     //Drop item when hit by another
@@ -246,8 +268,13 @@ public class PlayerControl : MonoBehaviour
         heldObjectRigid.AddForce(transform.up * dropForce, ForceMode.Impulse);
         //change state of object to thrown
         heldObject.GetComponent<Pickupable>().lastAttachedObject = this.gameObject;
+        //Turn collider back on for object
+        heldObject.GetComponent<Collider>().enabled = true;
 
         heldObject = null;
+
+        //Change player state
+        playerState = PlayerState.Normal;
     }
 
     //Reaction call when thrown object makes contact
@@ -265,6 +292,7 @@ public class PlayerControl : MonoBehaviour
         }
         else if(playerState == PlayerState.Holding)
         {
+            DropItem();
             //Item contact logic
             item.GetComponent<Pickupable>().NoCatchImpact();
         }

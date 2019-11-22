@@ -6,7 +6,8 @@ public class Table : Interactable
 {
     [Header("Object refs")]
     public GameObject itemOnTable;
-    public Vector3 posOnTable = new Vector3(0.0f, 0.5f, 0.0f);
+    //public Vector3 posOnTable = new Vector3(0.0f, 0.5f, 0.0f);
+    public Transform onTableTransform;
 
     // Start is called before the first frame update
     void Start()
@@ -34,7 +35,7 @@ public class Table : Interactable
     //Position the object on the table
     protected void PositionOnTalbe()
     {
-        itemOnTable.transform.position = posOnTable;
+        itemOnTable.transform.position = onTableTransform.position;
         //remove physics from it
         itemOnTable.GetComponent<Rigidbody>().velocity = Vector3.zero;
         itemOnTable.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePosition;
@@ -49,12 +50,16 @@ public class Table : Interactable
     //Logic when trying to pick up from
     public override void PickUpFrom(PlayerControl player)
     {
-        //Set physics on for object
-        itemOnTable.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-        //give object to player
-        player.GetItem(itemOnTable);
-        itemOnTable.GetComponent<Pickupable>().attachedTable = null;
-        //remove item from table
-        itemOnTable = null;        
+        if (itemOnTable)
+        {
+            //Set physics on for object
+            itemOnTable.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+            //give object to player
+            player.GetItem(itemOnTable);
+            itemOnTable.GetComponent<Pickupable>().attachedTable = null;
+            //remove item from table
+            itemOnTable = null;
+        }
+            
     }
 }

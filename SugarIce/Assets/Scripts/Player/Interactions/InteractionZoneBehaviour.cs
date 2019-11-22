@@ -105,7 +105,7 @@ public class InteractionZoneBehaviour : MonoBehaviour {
         if (!other.gameObject.transform.parent)
         {
             //if object is interactable
-            if (other.CompareTag(interactableTag))
+            if (other.GetComponent<Interactable>())
             {
                 //if object not already in list
                 if (!collidedObjects.Contains(other.gameObject))
