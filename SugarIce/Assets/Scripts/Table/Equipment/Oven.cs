@@ -24,10 +24,15 @@ public class Oven : PassiveEquipment
         //if the object exists, and can be worked, work it
         if (itemOnTable)
         {
+            inUse = true;
             if (itemOnTable.GetComponent<Pickupable>() && itemOnTable.GetComponent<Pickupable>().canBeProcessed)
             {
                 itemOnTable.GetComponent<Pickupable>().WorkItem(processRate, myProcessMethod);
             }
+        }
+        else
+        {
+            inUse = false;
         }
     }
 }

@@ -18,6 +18,7 @@ public class PlayerControl : MonoBehaviour
 
     [Header("Pickupable handling")]
     public float throwForce = 15.0f;
+    public Transform launchTrajectory;
     public float upwardTrajectoryAngle = 30.0f;
     public float dropForce = 10.0f;
     public GameObject heldObject;
@@ -70,6 +71,7 @@ public class PlayerControl : MonoBehaviour
         if(playerState == PlayerState.Holding && heldObject)
         {
             heldObject.transform.position = heldObjectPos.position;
+            heldObject.transform.rotation = heldObjectPos.rotation;
         }
         //If not in working state
         if(playerState != PlayerState.Working)
@@ -200,9 +202,10 @@ public class PlayerControl : MonoBehaviour
         //animator.SetTrigger(throwAnimation);
         //launch the object with given force, and set state to thrown
         Rigidbody heldObjectRigid = heldObject.GetComponent<Rigidbody>();
-        Vector3 launchDirection = Quaternion.AngleAxis(upwardTrajectoryAngle, transform.right) * transform.forward;
-        print(launchDirection);
-        heldObjectRigid.AddForce(launchDirection * throwForce, ForceMode.Impulse);
+        //Vector3 launchDirection = Quaternion.AngleAxis(upwardTrajectoryAngle, transform.right) * transform.forward;
+        //print(launchDirection);
+        //heldObjectRigid.AddForce(launchTrajectory.forward * throwForce, ForceMode.Impulse);
+        heldObjectRigid.velocity = launchTrajectory.forward * throwForce;
         //change state of object to thrown
         //ensure current holder cannot immediatly catch again
         heldObject.GetComponent<Pickupable>().isThrown = true;

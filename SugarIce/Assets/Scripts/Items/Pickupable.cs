@@ -13,6 +13,7 @@ public class Pickupable : Interactable
 
     [Header("Handling Needs")]
     public float amountToProcess = 2.5f;
+    public float processedAmount = 0.0f;
     [Tooltip("True if item will explode when improperly handled")]
     public bool isExplosive = false;
     [Tooltip("True if item will break when improperly handled")]
@@ -37,7 +38,7 @@ public class Pickupable : Interactable
     [HideInInspector]
     public GameObject lastAttachedObject = null; //For not reattaching to something after throwing
 
-    private float processedAmount = 0.0f;
+    
 
     
 
