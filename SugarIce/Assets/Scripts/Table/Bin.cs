@@ -25,9 +25,10 @@ public class Bin : Table
     void BinItem(GameObject item)
     {
         //Remove all physics acting on the object
-        itemOnTable.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        item.GetComponent<Rigidbody>().velocity = Vector3.zero;
         //Set to null
         itemOnTable = null;
         //Any effects or animations that need to play as item drops
+        Destroy(item);
     }
 }

@@ -13,7 +13,7 @@ public class Product : Pickupable
     public ProductName productName = ProductName.Unknown;
 
     [Header("Order Image")]
-    public SpriteRenderer productImage = null; //graphical representation of order
+    public Sprite productImage = null; //graphical representation of order
 
     // Start is called before the first frame update
     void Start()

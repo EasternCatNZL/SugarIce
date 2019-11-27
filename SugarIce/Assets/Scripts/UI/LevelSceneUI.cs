@@ -10,12 +10,13 @@ public class LevelSceneUI : MonoBehaviour
     public string levelFinishMessage = "Finished!";
     [Tooltip("UI object that details order visually")]
     public GameObject orderVisual;
-
-    private Text timerText;
-    private Text scoreText;
+    public List<GameObject> orderVisualList = new List<GameObject>();
+    public Text timerText;
+    public Text scoreText;
 
     [Header("UI Positioning")]
-    public List<Transform> orderPositions = new List<Transform>();
+    public List<RectTransform> orderPositions = new List<RectTransform>();
+    public float orderMoveAlongTime = 0.2f;
 
     // Start is called before the first frame update
     void Start()
@@ -40,24 +41,47 @@ public class LevelSceneUI : MonoBehaviour
     {
         //create a new object at the specified index
         GameObject menuItemClone = Instantiate(orderVisual, orderPositions[posIndex].position, Quaternion.identity);
+        menuItemClone.transform.SetParent(transform);
+        //Set the image used based on product
+        menuItemClone.GetComponent<OrderItem>().orderImage = newOrder.productImage;
         //do animation?
     }
 
     //Logic when order is completed or expired
     public void RemoveOrderFromUI(int posIndex)
     {
-
+        //Get the object that needs to be removed
+        GameObject toRemove = orderVisualList[posIndex];
+        orderVisualList.RemoveAt(posIndex);
+        //Destroy the removed object
+        Destroy(toRemove);
+        //Rearrange the orders based on what was removed and what else is in list
+        RearrangeOrdersInUI(posIndex);
     }
 
     //Logic to rearrange orders when one is removed ahead of last in list
     private void RearrangeOrdersInUI(int posIndex)
     {
-
+        //If from removed point so that all images move to new pos after one before vacated
+        for(int i = posIndex; i < orderVisualList.Count; i++)
+        {
+            //If object in this index after i removed <- i+1 = i after i removed
+            if (orderVisualList[i])
+            {
+                //Move the order visual to new pos
+                orderVisualList[i].transform.DOMove(orderPositions[i].localScale, orderMoveAlongTime, false);
+            }
+            //else, no orders beyond this point
+            else
+            {
+                return;
+            }
+        }
     }
 
     //set text ui
     public void ScoreTextUpdate(float scoreVal)
     {
-        scoreText.text = scoreVal.ToString();
+        scoreText.text = "Score: " + scoreVal.ToString();
     }
 }

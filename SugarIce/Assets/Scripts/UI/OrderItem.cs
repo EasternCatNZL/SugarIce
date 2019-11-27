@@ -10,8 +10,8 @@ public class OrderItem : MonoBehaviour {
     [HideInInspector]
     public float timeStart = 0.0f; //time that order was created
 
-    [Header("Order")]
-    public Product.ProductName order;
+    //[Header("Order")]
+    //public Product.ProductName order;
 
     [Header("Order Image")]
     public Sprite orderImage; //graphical representation of order

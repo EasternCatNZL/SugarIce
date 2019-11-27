@@ -70,6 +70,16 @@ public class GameLevelSceneHandler : MonoBehaviour
             }
 
         }
+        else
+        {
+            //For debugging
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                StartLevel();
+            }
+        }
+
+        
     }
 
     //Logic ran when level begins <-prep before giving players control
@@ -129,15 +139,17 @@ public class GameLevelSceneHandler : MonoBehaviour
     }
 
     //Complete order by removing it from the list
-    private void CompleteOrder(Order completedOrder)
+    public void CompleteOrder(Product completedOrder)
     {
         //check if this product exists within the requested orders
         Order foundOrder = null;
-        foreach (Order i in currentActiveOrders){
+        int foundIndex = 0;
+        for (int i = 0; i < currentActiveOrders.Count; i++){
             //if found, ref the order and then break out of loop
-            if(completedOrder.orderProduct.productName == i.orderProduct.productName)
+            if(completedOrder.productName == currentActiveOrders[i].orderProduct.productName)
             {
-                foundOrder = i;
+                foundOrder = currentActiveOrders[i];
+                foundIndex = i;
                 break;
             }
         }
@@ -146,7 +158,8 @@ public class GameLevelSceneHandler : MonoBehaviour
         {
             currentActiveOrders.Remove(foundOrder);
             score = foundOrder.ScoreThisOrder(levelScoreMultiplier);
-            Destroy(foundOrder.gameObject);
+            //Call on ui to remove order that was found
+            levelUi.RemoveOrderFromUI(foundIndex);
             UpdateScoreText();
         }
     }
