@@ -10,29 +10,13 @@ public class Oven : PassiveEquipment
         
     }
 
+    /*
     // Update is called once per frame
     void Update()
     {
-        //Work as long as item is on table
-        Work();
+        
     }
+    */
 
-    public override void Work()
-    {
-        base.Work();
 
-        //if the object exists, and can be worked, work it
-        if (itemOnTable)
-        {
-            inUse = true;
-            if (itemOnTable.GetComponent<Pickupable>() && itemOnTable.GetComponent<Pickupable>().canBeProcessed)
-            {
-                itemOnTable.GetComponent<Pickupable>().WorkItem(processRate, myProcessMethod);
-            }
-        }
-        else
-        {
-            inUse = false;
-        }
-    }
 }

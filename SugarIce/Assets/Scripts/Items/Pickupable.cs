@@ -8,7 +8,8 @@ public class Pickupable : Interactable
     {
         Liquid,
         Dough,
-        Stone
+        Stone,
+        Powder
     }
 
     [Header("Handling Needs")]
