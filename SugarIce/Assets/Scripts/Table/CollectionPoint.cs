@@ -13,7 +13,10 @@ public class CollectionPoint : Table
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (!handler)
+        {
+            handler = GameObject.FindGameObjectWithTag(handlerTag).GetComponent<GameLevelSceneHandler>();
+        }
     }
 
     // Update is called once per frame

@@ -40,10 +40,12 @@ public class LevelSceneUI : MonoBehaviour
     public void CreateOrderInUI(int posIndex, Product newOrder)
     {
         //create a new object at the specified index
-        GameObject menuItemClone = Instantiate(orderVisual, orderPositions[posIndex].position, Quaternion.identity);
-        menuItemClone.transform.SetParent(transform);
+        GameObject menuItemVisual = Instantiate(orderVisual, orderPositions[posIndex].position, Quaternion.identity);
+        menuItemVisual.transform.SetParent(transform);
         //Set the image used based on product
-        menuItemClone.GetComponent<OrderItem>().orderImage = newOrder.productImage;
+        menuItemVisual.GetComponent<OrderItem>().orderImage = newOrder.productImage;
+        //Add to list of visuals
+        orderVisualList.Add(menuItemVisual);
         //do animation?
     }
 
@@ -69,7 +71,7 @@ public class LevelSceneUI : MonoBehaviour
             if (orderVisualList[i])
             {
                 //Move the order visual to new pos
-                orderVisualList[i].transform.DOMove(orderPositions[i].localScale, orderMoveAlongTime, false);
+                orderVisualList[i].GetComponent<RectTransform>().DOAnchorPos(orderPositions[i].anchoredPosition, orderMoveAlongTime, false);
             }
             //else, no orders beyond this point
             else

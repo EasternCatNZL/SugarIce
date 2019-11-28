@@ -159,6 +159,7 @@ public class GameLevelSceneHandler : MonoBehaviour
             currentActiveOrders.Remove(foundOrder);
             score = foundOrder.ScoreThisOrder(levelScoreMultiplier);
             //Call on ui to remove order that was found
+            print(foundIndex);
             levelUi.RemoveOrderFromUI(foundIndex);
             UpdateScoreText();
         }
